@@ -3,7 +3,6 @@
     <meta charset="UTF-8">
     <title>Ciallo～(∠・ω< )⌒★</title>
     <link rel="shortcut icon" href="/favicon.ico" />
-    <link href="/ys.gif" />
 </head>
 <style>
     .center {
@@ -104,4 +103,12 @@
         }
         req.send();
     }
+
+    $(document).ready(function() {
+        const currentUrl = window.location.href;
+        if (currentUrl.endsWith("/ys.gif")) {
+            const newUrl = currentUrl.substring(0, currentUrl.length - 7); // 去掉 /ys.gif 后进行跳转
+            window.location.href = newUrl;
+        }
+    });
 </script>
