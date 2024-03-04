@@ -113,10 +113,9 @@
     }
 
     $(document).ready(function() {
-        const currentURL = window.location.href;
-        if (currentURL.includes("/yuanshen")) {
-            const newURL = currentURL.replace("/yuanshen", "/ys.gif");
-            window.location.href = newURL;
+        const path = window.location.pathname;
+        if (path.endsWith("/yuanshen")) {
+            window.location.href = "/ys.gif";
         }
     });
 </script>
