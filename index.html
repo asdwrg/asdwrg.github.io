@@ -113,10 +113,10 @@
     }
 
     $(document).ready(function() {
-        const currentUrl = window.location.href;
-        if (currentUrl.endsWith("/ys.gif")) {
-            const newUrl = currentUrl.substring(0, currentUrl.length - 7); // 去掉 /ys.gif 后进行跳转
-            window.location.href = newUrl;
+        const currentURL = window.location.href;
+        if (currentURL.includes("/yuanshen")) {
+            const newURL = currentURL.replace("/yuanshen", "/ys.gif");
+            window.location.href = newURL;
         }
     });
 </script>
