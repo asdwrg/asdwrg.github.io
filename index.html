@@ -13,9 +13,9 @@
     </style>
 </head>
 <style>
-    @keyframes marquee {
-        0% { transform: translateX(100%); }
-        100% { transform: translateX(-100%); }
+    @keyframes moveRightToLeft {
+        from { transform: translateX(100%); }
+        to { transform: translateX(-100%); }
     }
 
     .marquee-container {
@@ -28,7 +28,7 @@
     .marquee-content {
         display: inline-block;
         position: absolute;
-        animation: marquee linear infinite;
+        animation: moveRightToLeft linear infinite;
     }
 </style>
 <style>
@@ -120,6 +120,7 @@
         character.style.color = getRandomColor(); // 设置字符颜色
         character.style.fontSize = getRandomFontSize(); // 设置字符大小
         character.style.animationDuration = getRandomSpeed() + 's'; // 设置字符速度
+        character.classList.add('marquee-content');
         container.appendChild(character);
     }
     
