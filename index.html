@@ -96,7 +96,7 @@
     }
 
     function getRandomSpeed() {
-        return Math.floor(Math.random() * 25) + 17; // 15 到 42 之间的随机速度
+        return Math.floor(Math.random() * 40) + 17; // 17 到 57 之间的随机速度
     }
 
     function getRandomFontSize() {
@@ -113,7 +113,7 @@
     }
 
     const container = document.getElementById('marquee-container');
-    const numCharacters = 50; // 要生成的字符数量
+    const numCharacters = 60; // 要生成的字符数量
     for (let i = 0; i < numCharacters; i++) {
         const character = document.createElement('div');
         character.textContent = 'Ciallo～(∠・ω< )⌒★'; // 字符内容
