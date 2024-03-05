@@ -15,14 +15,21 @@
 </head>
 <style>
     .center {
-        width: 540px;
-        height: 120px;
+        width: 90%; /* 使用百分比来设置宽度 */
+        height: auto; /* 自动适应高度 */
         margin: auto;
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
+    }
+</style>
+<style>
+    @media screen and (max-width: 600px) {
+        .center {
+            width: 100%; /* 在小于600px的屏幕尺寸下，将宽度设置为100% */
+        }
     }
 </style>
 <body>
