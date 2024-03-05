@@ -96,11 +96,11 @@
     }
 
     function getRandomSpeed() {
-        return Math.floor(Math.random() * 20) + 5; // 5 到 25 之间的随机速度
+        return Math.floor(Math.random() * 20) + 10; // 10 到 30 之间的随机速度
     }
 
     function getRandomFontSize() {
-        return Math.floor(Math.random() * 20) + 10 + 'px'; // 10px 到 30px 之间的随机大小
+        return Math.floor(Math.random() * 25) + 5 + 'px'; // 5px 到 30px 之间的随机大小
     }
 
     function getRandomColor() {
@@ -113,7 +113,7 @@
     }
 
     const container = document.getElementById('marquee-container');
-    const numCharacters = 50; // 要生成的字符数量
+    const numCharacters = 60; // 要生成的字符数量
     for (let i = 0; i < numCharacters; i++) {
         const character = document.createElement('div');
         character.textContent = 'Ciallo～(∠・ω< )⌒★'; // 字符内容
@@ -121,7 +121,6 @@
         character.style.fontSize = getRandomFontSize(); // 设置字符大小
         character.style.animationDuration = getRandomSpeed() + 's'; // 设置字符速度
         character.classList.add('marquee-content');
-        character.style.left = Math.random() * 100 + '%'; // 设置随机初始水平位置
         character.style.top = Math.random() * container.clientHeight + 'px'; // 设置随机初始垂直位置
         container.appendChild(character);
     }
