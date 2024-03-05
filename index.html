@@ -13,6 +13,23 @@
     </style>
 </head>
 <style>
+    @keyframes marquee {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+    }
+
+    .marquee-container {
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+    }
+
+    .marquee-content {
+        display: inline-block;
+        animation: marquee 10s linear infinite;
+    }
+</style>
+<style>
     .center {
         width: 540px;
         height: 50%;
@@ -25,25 +42,8 @@
     }
 </style>
 <body>
-    <div>
-        <marquee behavior="scroll" direction="left" scrollamount="30"><font color="red" size="15px">Ciallo～(∠・ω< )⌒★</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="15"><font color="aqua" size="11px">Ciallo～(∠・ω< )⌒☆</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="25"><font>Ciallo～(∠・ω< )⌒★</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="12"><font color="coral" size="10px">Ciallo～(∠・ω< )⌒★</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="28"><font color="red">Ciallo～(∠・ω< )⌒★</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="20"><font color="greenyellow" size="13px">Ciallo～(∠・ω< )⌒☆</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="10"><font size="16px">Ciallo～(∠・ω< )⌒★</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="15"><font color="pink" size="20px">Ciallo～(∠・ω< )⌒★</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="11"><font color="aqua" size="6px">Ciallo～(∠・ω< )⌒☆</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="28"><font color="red">Ciallo～(∠・ω< )⌒☆</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="8"><font color="greenyellow" size="10px">Ciallo～(∠・ω< )⌒★</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="20"><font color="pink" size="9px">Ciallo～(∠・ω< )⌒★</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="13"><font color="green" size="5px">Ciallo～(∠・ω< )⌒☆</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="17"><font color="blue" size="5px">Ciallo～(∠・ω< )⌒☆</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="16"><font color="yellow" size="7px">Ciallo～(∠・ω< )⌒★</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="11"><font color="red" size="5px">Ciallo～(∠・ω< )⌒★</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="10"><font color="orange" size="8px">Ciallo～(∠・ω< )⌒☆</font></marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="20"><font color="gray" size="9px">Ciallo～(∠・ω< )⌒★</font></marquee>
+    <div class="marquee-container">
+    <div class="marquee-content" id="marquee-text">Ciallo～(∠・ω< )⌒★</div>
     </div>
     <div id="main" class="center">
         <img src="ciallo.gif">
@@ -95,6 +95,23 @@
         return `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
     }
 
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    function getRandomFontSize() {
+        return Math.floor(Math.random() * 20) + 10 + 'px'; // 10px 到 30px 之间的随机大小
+    }
+
+    const marqueeText = document.getElementById('marquee-text');
+    marqueeText.style.color = getRandomColor();
+    marqueeText.style.fontSize = getRandomFontSize();
+    
     function load_sound(url_data) {
         const req = new XMLHttpRequest();
         req.open('GET', url_data, true);
