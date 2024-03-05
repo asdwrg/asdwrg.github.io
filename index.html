@@ -22,11 +22,13 @@
         overflow: hidden;
         white-space: nowrap;
         position: relative;
+        height: 100px; /* 设定容器的高度 */
     }
 
     .marquee-content {
         display: inline-block;
-        animation: marquee 10s linear infinite;
+        position: absolute;
+        animation: marquee linear infinite;
     }
 </style>
 <style>
@@ -42,9 +44,7 @@
     }
 </style>
 <body>
-    <div class="marquee-container">
-    <div class="marquee-content" id="marquee-text">Ciallo～(∠・ω< )⌒★</div>
-    </div>
+   <div class="marquee-container" id="marquee-container"></div>
     <div id="main" class="center">
         <img src="ciallo.gif">
     </div>
@@ -95,6 +95,14 @@
         return `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
     }
 
+    function getRandomSpeed() {
+        return Math.floor(Math.random() * 20) + 5; // 5 到 25 之间的随机速度
+    }
+
+    function getRandomFontSize() {
+        return Math.floor(Math.random() * 20) + 10 + 'px'; // 10px 到 30px 之间的随机大小
+    }
+
     function getRandomColor() {
         const letters = '0123456789ABCDEF';
         let color = '#';
@@ -104,13 +112,16 @@
         return color;
     }
 
-    function getRandomFontSize() {
-        return Math.floor(Math.random() * 20) + 10 + 'px'; // 10px 到 30px 之间的随机大小
+    const container = document.getElementById('marquee-container');
+    const numCharacters = 10; // 要生成的字符数量
+    for (let i = 0; i < numCharacters; i++) {
+        const character = document.createElement('div');
+        character.textContent = 'Ciallo～(∠・ω< )⌒★'; // 字符内容
+        character.style.color = getRandomColor(); // 设置字符颜色
+        character.style.fontSize = getRandomFontSize(); // 设置字符大小
+        character.style.animationDuration = getRandomSpeed() + 's'; // 设置字符速度
+        container.appendChild(character);
     }
-
-    const marqueeText = document.getElementById('marquee-text');
-    marqueeText.style.color = getRandomColor();
-    marqueeText.style.fontSize = getRandomFontSize();
     
     function load_sound(url_data) {
         const req = new XMLHttpRequest();
