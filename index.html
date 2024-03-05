@@ -121,6 +121,7 @@
         character.style.fontSize = getRandomFontSize(); // 设置字符大小
         character.style.animationDuration = getRandomSpeed() + 's'; // 设置字符速度
         character.classList.add('marquee-content');
+        character.style.right = 0; // 设置初始水平位置在右侧
         character.style.top = Math.random() * container.clientHeight + 'px'; // 设置随机初始垂直位置
         container.appendChild(character);
     }
