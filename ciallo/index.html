@@ -13,16 +13,17 @@
             user-select: none; /* Non-prefixed version, currently supported by Chrome, Firefox, and Opera */
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
             height: 100vh;
+            position: relative;
         }
         .links {
+            position: absolute;
+            bottom: 20px; /* 调整链接与底部的距离 */
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             justify-content: center;
             gap: 20px;
-            margin-bottom: 20px; /* Adjust the space between links and bottom */
         }
         .link {
             color: red;
