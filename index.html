@@ -36,8 +36,6 @@ body {
     text-align: center; /* 水平居中 */
   }
   .is-size-7 {
-    text-align: center; /* 水平居中 */
-    padding: 10px; /* 添加一些内边距 */
     background-color: #f0f0f0; /* 添加背景颜色 */
   }
 </style>
@@ -53,11 +51,16 @@ body {
   <p><a href="#" onclick="visitSite('https://nz.ymdr.pp.ua')" style="color: black; text-align: center; text-decoration: none;" onmouseover="return false;"
       title="资源管理页面" rel="nofollow external" target="_self">原神启动（bushi）<a/></p>
 </div>  
-<div class="is-size-7">Copyright © 2023 ymdr All Rights Reserved. | Contact me:TG@ymdr_C</div>
+<div class="is-size-7"></div>
 
 <script>
     function visitSite(url) {
       window.location.href = url;
+    }
+    window.onload = function(){
+        var footer=document.querySelector("div.is-size-7")
+        footer.innerHTML="Copyright © 2023 ymdr All Rights Reserved. | Contact me:TG@ymdr_C"
+        footer.style.visibility="visible"
     }
 </script>
 
