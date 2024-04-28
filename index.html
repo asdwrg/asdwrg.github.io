@@ -68,6 +68,10 @@ body {
         var contactLink = document.createElement("a");
         contactLink.href = "https://t.me/ymdr_C"; // 这里替换为你想要的链接地址
         contactLink.textContent = "@ymdr_C";
+        footer.innerHTML = "Copyright © 2023 ymdr All Rights Reserved. | Contact me:";
+        footer.style.display = "flex";
+        footer.style.flexWrap = "wrap"; // 允许元素换行
+        footer.style.alignItems = "center"; // 垂直居中
         footer.innerHTML = "Copyright © 2023 ymdr All Rights Reserved. | Contact me: ";
         footer.appendChild(contactLink);
         footer.style.visibility = "visible";
