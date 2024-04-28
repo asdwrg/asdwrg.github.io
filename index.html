@@ -65,8 +65,12 @@ body {
     }
     window.onload = function(){
         var footer=document.querySelector("div.is-size-7")
-        footer.innerHTML="Copyright © 2023 ymdr All Rights Reserved. | Contact me:TG@ymdr_C"
-        footer.style.visibility="visible"
+        var contactLink = document.createElement("a");
+        contactLink.href = "https://t.me/ymdr_C"; // 这里替换为你想要的链接地址
+        contactLink.textContent = "@ymdr_C";
+        footer.innerHTML = "Copyright © 2023 ymdr All Rights Reserved. | Contact me: ";
+        footer.appendChild(contactLink);
+        footer.style.visibility = "visible";
     }
 </script>
 
