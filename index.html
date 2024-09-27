@@ -96,12 +96,12 @@
                     const link = $(this);
                     setTimeout(() => {
                         link.addClass('show'); // 添加类以启动动画
-                    }, index * 400); // 每个链接的动画延迟
-                });
 
-                // 增加容器高度以适应链接
-                const currentHeight = $('.content').height();
-                $('.content').css('height', currentHeight + 200 + 'px'); // 增加200px以适应链接
+                        // 每显示一个链接就增加内容区域的高度
+                        const currentHeight = $('.content').height();
+                        $('.content').css('height', currentHeight + 50 + 'px'); // 每个链接增加50px高度
+                    }, index * 500); // 每个链接的动画延迟500ms
+                });
             }
 
             // 开始逐字打印
@@ -113,11 +113,11 @@
 <div class="content">
     <div id="typed-content"></div>
     <div class="links">
-        <a href='https://blog.ymdr.top' style='color: black; text-decoration: none;' target='_self'>我的博客</a>
-        <a href='/ciallo' style='color: black; text-decoration: none;' target='_self'>Ciallo～(∠・ω< )⌒☆</a>
-        <a href='https://nz.ymdr.top' style='color: black; text-decoration: none;' target='_self'>服务器监控</a>
-        <a href='https://nz.ymdr.pp.ua' style='color: black; text-decoration: none;' target='_self'>备用监控</a>
-        <a href='https://muses.app.tc' style='color: black; text-decoration: none;' target='_self'>看电影的</a>
+        <a href="https://blog.ymdr.top" class="animate-slide-in-down">我的博客</a>
+        <a href="/ciallo" class="animate-slide-in-down">Ciallo～(∠・ω< )⌒☆</a>
+        <a href="https://nz.ymdr.top" class="animate-slide-in-down">服务器监控</a>
+        <a href="https://nz.ymdr.pp.ua" class="animate-slide-in-down">备用监控</a>
+        <a href="https://muses.app.tc" class="animate-slide-in-down">看电影的</a>
     </div>
 </div>
 <div class="footer is-size-7">
