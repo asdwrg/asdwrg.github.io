@@ -29,6 +29,8 @@
             border-radius: 10px;
             position: relative;
             overflow: hidden;
+            height: 0; /* 初始高度为 0 */
+            transition: height 0.5s ease; /* 高度动画 */
         }
 
         .footer {
@@ -41,15 +43,15 @@
         }
 
         .links a {
-            display: block; /* 每个链接占据一行 */
-            opacity: 0; /* 初始透明度为0 */
-            transform: translateY(20px); /* 初始向下偏移 */
-            transition: opacity 0.5s ease, transform 0.5s ease; /* 动画效果 */
+            display: block;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         .links a.show {
-            opacity: 1; /* 动画结束后透明度为1 */
-            transform: translateY(0); /* 还原位置 */
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
     <script>
@@ -73,6 +75,11 @@
                 if (textIndex < texts.length) {
                     const p = $('<p></p>'); // 创建新的 p 元素
                     $(element).append(p); // 将新行添加到内容区域
+
+                    // 动态增加容器高度
+                    const currentHeight = $('.content').height();
+                    $('.content').css('height', currentHeight + 50 + 'px'); // 每增加一行，高度增加50px
+
                     typeCharacter(p, texts[textIndex]); // 对新行进行逐字打印
                     const delay = texts[textIndex].length * 100 + 1000; // 结束后间隔1秒
                     setTimeout(() => {
@@ -89,8 +96,12 @@
                     const link = $(this);
                     setTimeout(() => {
                         link.addClass('show'); // 添加类以启动动画
-                    }, index * 400); // 每个链接的动画延迟
+                    }, index * 200); // 每个链接的动画延迟
                 });
+
+                // 增加容器高度以适应链接
+                const currentHeight = $('.content').height();
+                $('.content').css('height', currentHeight + 200 + 'px'); // 增加200px以适应链接
             }
 
             // 开始逐字打印
