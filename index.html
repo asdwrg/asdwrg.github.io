@@ -66,9 +66,7 @@
 
         function typeCharacter(element, text, index = 0) {
     if (index < text.length) {
-        const line = document.createElement('span'); // 使用 span 而不是 p
-        line.innerHTML = text.substring(0, index + 1);
-        element.lastChild.innerHTML = line.innerHTML; // 更新最后一行内容
+        element.innerHTML = text.substring(0, index + 1); // 直接更新 innerHTML
         setTimeout(() => typeCharacter(element, text, index + 1), 100); // 每个字符打印间隔100毫秒
     }
 }
@@ -81,6 +79,7 @@ function typeText(element, texts, textIndex = 0) {
         setTimeout(() => typeText(element, texts, textIndex + 1), texts[textIndex].length * 100 + 1000); // 结束后间隔1秒
     }
 }
+
 
         window.onload = function() {
             const contentDiv = document.getElementById('typed-content');
