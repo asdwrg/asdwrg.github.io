@@ -18,6 +18,7 @@
             align-items: center;
             min-height: 100vh;
         }
+
         .content {
             max-width: 600px;
             width: 100%;
@@ -27,6 +28,7 @@
             padding: 20px;
             border-radius: 10px;
         }
+
         .footer {
             background-color: #f0f0f0;
             position: fixed;
@@ -36,23 +38,36 @@
             text-align: center;
         }
     </style>
+    <script>
+        const texts = [
+            "Hello World",
+            "Here are some links below.",
+            "我的博客: <a href='https://blog.ymdr.top' style='color: black; text-decoration: none;' target='_self'>我的博客</a>",
+            "Ciallo～(∠・ω< )⌒☆: <a href='/ciallo' style='color: black; text-decoration: none;' target='_self'>Ciallo～(∠・ω< )⌒☆</a>",
+            "随机传送门: <a href='https://theuselessweb.com' style='color: black; text-decoration: none;' target='_self'>随机传送门</a>",
+            "服务器监控: <a href='https://nz.ymdr.top' style='color: black; text-decoration: none;' target='_self'>服务器监控</a>",
+            "备用监控: <a href='https://nz.ymdr.pp.ua' style='color: black; text-decoration: none;' target='_self'>备用监控</a>",
+            "看电影的: <a href='https://muses.app.tc' style='color: black; text-decoration: none;' target='_self'>看电影的</a>"
+        ];
+
+        function typeText(element, texts, index = 0) {
+            if (index < texts.length) {
+                const line = document.createElement('p');
+                line.innerHTML = texts[index];
+                element.appendChild(line);
+                setTimeout(() => typeText(element, texts, index + 1), 1000); // 每行打印间隔1秒
+            }
+        }
+
+        window.onload = function() {
+            const contentDiv = document.getElementById('typed-content');
+            typeText(contentDiv, texts);
+        };
+    </script>
 </head>
 <body>
 <div class="content">
-    <h1>Hello everyone</h1>
-    <h2>这是我的个人主页。</h2>
-    <p><a href="https://blog.ymdr.top" style="color: black; text-decoration: none;" 
-      title="个人Blog" target="_self">我的博客</a></p>
-    <p><a href="/ciallo" style="color: black; text-decoration: none;" 
-      title="还在犹豫什么" rel="noreferrer" target="_self">Ciallo～(∠・ω< )⌒☆</a></p>
-    <!-- <p><a href="https://theuselessweb.com" style="color: black; text-decoration: none;" -->
-     <!-- title="有趣的网站" rel="noreferrer external" target="_self">随机传送门<a/></p> -->
-    <p><a href="https://nz.ymdr.top" style="color: black; text-decoration: none;" 
-      title="二刺猿万岁" rel="nofollow external" target="_self">服务器监控<a/></p>
-    <p><a href="https://nz.ymdr.pp.ua" style="color: black; text-decoration: none;" 
-      title="没什么用" rel="nofollow external" target="_self">备用监控<a/></p>
-    <p><a href="https://muses.app.tc" style="color: black; text-decoration: none;" 
-      title="缪斯" rel="noreferrer" target="_self">看电影的<a/></p>
+    <div id="typed-content"></div>
 </div>
 <div class="footer is-size-7">
     <p>
