@@ -78,7 +78,7 @@
 
                     // 动态增加容器高度
                     const currentHeight = $('.content').height();
-                    $('.content').css('height', currentHeight + 20 + 'px'); // 每增加一行，高度增加50px
+                    $('.content').css('height', currentHeight + 50 + 'px'); // 每增加一行，高度增加50px
 
                     typeCharacter(p, texts[textIndex]); // 对新行进行逐字打印
                     const delay = texts[textIndex].length * 100 + 1000; // 结束后间隔1秒
@@ -99,7 +99,7 @@
 
                         // 每显示一个链接就增加内容区域的高度
                         const currentHeight = $('.content').height();
-                        $('.content').css('height', currentHeight + 50 + 'px'); // 每个链接增加50px高度
+                        $('.content').css('height', currentHeight + 20 + 'px'); // 每个链接增加50px高度
                     }, index * 500); // 每个链接的动画延迟500ms
                 });
             }
