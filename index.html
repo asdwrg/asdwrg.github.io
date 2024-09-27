@@ -70,12 +70,13 @@
                 element.innerHTML = currentText + "<span class='cursor'></span>";
                 setTimeout(() => typeText(element, text, index, charIndex + 1), 100); // 每个字符间隔100毫秒
             } else if (index < texts.length - 1) {
-                setTimeout(() => {
-                    element.innerHTML = ""; // 清空当前文本
-                    typeText(element, texts[index + 1]); // 打印下一行
-                }, 1000); // 每行打印完成后等待1秒
+                const line = document.createElement('p');
+                line.innerHTML = texts[index];
+                element.appendChild(line);
+                setTimeout(() => typeText(element, texts, index + 1), 1000); // 每行打印间隔1秒
             }
         }
+
         window.onload = function() {
             const contentDiv = document.getElementById('typed-content');
             typeText(contentDiv, texts);
