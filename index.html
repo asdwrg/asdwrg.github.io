@@ -78,7 +78,7 @@
 
                     // 动态增加容器高度
                     const currentHeight = $('.content').height();
-                    $('.content').css('height', currentHeight + 50 + 'px'); // 每增加一行，高度增加50px
+                    $('.content').css('height', currentHeight + 20 + 'px'); // 每增加一行，高度增加50px
 
                     typeCharacter(p, texts[textIndex]); // 对新行进行逐字打印
                     const delay = texts[textIndex].length * 100 + 1000; // 结束后间隔1秒
@@ -113,11 +113,11 @@
 <div class="content">
     <div id="typed-content"></div>
     <div class="links">
-        <a href="https://blog.ymdr.top" class="animate-slide-in-down">我的博客</a>
-        <a href="/ciallo" class="animate-slide-in-down">Ciallo～(∠・ω< )⌒☆</a>
-        <a href="https://nz.ymdr.top" class="animate-slide-in-down">服务器监控</a>
-        <a href="https://nz.ymdr.pp.ua" class="animate-slide-in-down">备用监控</a>
-        <a href="https://muses.app.tc" class="animate-slide-in-down">看电影的</a>
+        <a href='https://blog.ymdr.top' style='color: black; text-decoration: none;' target='_self'>我的博客</a>
+        <a href='/ciallo' style='color: black; text-decoration: none;' target='_self'>Ciallo～(∠・ω< )⌒☆</a>
+        <a href='https://nz.ymdr.top' style='color: black; text-decoration: none;' target='_self'>服务器监控</a>
+        <a href='https://nz.ymdr.pp.ua' style='color: black; text-decoration: none;' target='_self'>备用监控</a>
+        <a href='https://muses.app.tc' style='color: black; text-decoration: none;' target='_self'>看电影的</a>
     </div>
 </div>
 <div class="footer is-size-7">
