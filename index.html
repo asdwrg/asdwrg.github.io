@@ -59,7 +59,6 @@
             "Here are some links below.",
             "<a href='https://blog.ymdr.top' style='color: black; text-decoration: none;' target='_self'>我的博客</a>",
             "<a href='/ciallo' style='color: black; text-decoration: none;' target='_self'>Ciallo～(∠・ω< )⌒☆</a>",
-            "<a href='https://theuselessweb.com' style='color: black; text-decoration: none;' target='_self'>随机传送门</a>",
             "<a href='https://nz.ymdr.top' style='color: black; text-decoration: none;' target='_self'>服务器监控</a>",
             "<a href='https://nz.ymdr.pp.ua' style='color: black; text-decoration: none;' target='_self'>备用监控</a>",
             "<a href='https://muses.app.tc' style='color: black; text-decoration: none;' target='_self'>看电影的</a>"
@@ -68,12 +67,15 @@
         function typeText(element, text, index = 0, charIndex = 0) {
             if (charIndex < text.length) {
                 const currentText = text.slice(0, charIndex + 1);
-                element.innerHTML = currentText + "<span class='cursor'></span>";
+                element.innerHTML = element.innerHTML.replace("<span class='cursor'></span>", "") + currentText + "<span class='cursor'></span>";
                 setTimeout(() => typeText(element, text, index, charIndex + 1), 100); // 每个字符间隔100毫秒
-            } else{
-                setTimeout(() => {
-                    typeText(element, texts[index + 1]); // 打印下一行
-                }, 1000); // 每行打印完成后等待1秒
+            } else {
+                element.innerHTML = element.innerHTML.replace("<span class='cursor'></span>", "") + "<br/>"; // 每行结束后换行
+                if (index + 1 < texts.length) {
+                    setTimeout(() => {
+                        typeText(element, texts[index + 1], index + 1); // 打印下一行
+                    }, 1000); // 每行打印完成后等待1秒
+                }
             }
         }
 
