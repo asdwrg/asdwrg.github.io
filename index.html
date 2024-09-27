@@ -55,8 +55,8 @@
     </style>
     <script>
         const texts = [
-            "Hello World",
-            "Here are some links below.",
+            "Hello everyone",
+            "这是我的个人主页。",
             "<a href='https://blog.ymdr.top' style='color: black; text-decoration: none;' target='_self'>我的博客</a>",
             "<a href='/ciallo' style='color: black; text-decoration: none;' target='_self'>Ciallo～(∠・ω< )⌒☆</a>",
             "<a href='https://nz.ymdr.top' style='color: black; text-decoration: none;' target='_self'>服务器监控</a>",
@@ -66,25 +66,22 @@
 
         function typeCharacter(element, text, index = 0) {
     if (index < text.length) {
-        element.innerHTML = text; // 保持完整 HTML 内容
+        $(element).html(text); // 保持完整 HTML 内容
         const visibleText = text.substring(0, index + 1);
-        element.innerHTML = visibleText; // 更新为当前可见部分
+        $(element).html(visibleText); // 更新为当前可见部分
         setTimeout(() => typeCharacter(element, text, index + 1), 100); // 每个字符打印间隔100毫秒
     }
 }
 
 function typeText(element, texts, textIndex = 0) {
     if (textIndex < texts.length) {
-        const p = document.createElement('p'); // 创建新的 p 元素
-        element.appendChild(p); // 将新行添加到内容区域
-        typeCharacter(p, texts[textIndex]); // 对新行进行逐字打印
+        const p = $('<p></p>'); // 创建新的 p 元素
+        $(element).append(p); // 将新行添加到内容区域
+        typeCharacter(p[0], texts[textIndex]); // 对新行进行逐字打印
         const delay = texts[textIndex].length * 100 + 1000; // 结束后间隔1秒
         setTimeout(() => typeText(element, texts, textIndex + 1), delay);
     }
 }
-
-
-
         window.onload = function() {
             const contentDiv = document.getElementById('typed-content');
             typeText(contentDiv, texts);
