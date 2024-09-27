@@ -45,6 +45,11 @@
             position: relative;
             top: 20px; /* 向下偏移 */
         }
+
+        .link a {
+            color: black; /* 设置链接文本颜色为黑色 */
+            text-decoration: none; /* 去掉下划线 */
+        }
     </style>
     <script>
         $(function() {
@@ -57,11 +62,11 @@
             ];
 
             const links = [
-                "<a href='https://blog.ymdr.top' style='color: black; text-decoration: none;' target='_self'>我的博客</a>",
-                "<a href='/ciallo' style='color: black; text-decoration: none;' target='_self'>Ciallo～(∠・ω< )⌒☆</a>",
-                "<a href='https://nz.ymdr.top' style='color: black; text-decoration: none;' target='_self'>服务器监控</a>",
-                "<a href='https://nz.ymdr.pp.ua' style='color: black; text-decoration: none;' target='_self'>备用监控</a>",
-                "<a href='https://muses.app.tc' style='color: black; text-decoration: none;' target='_self'>看电影的</a>"
+                "<a href='https://blog.ymdr.top' target='_self'>我的博客</a>",
+                "<a href='/ciallo' target='_self'>Ciallo～(∠・ω< )⌒☆</a>",
+                "<a href='https://nz.ymdr.top' target='_self'>服务器监控</a>",
+                "<a href='https://nz.ymdr.pp.ua' target='_self'>备用监控</a>",
+                "<a href='https://muses.app.tc' target='_self'>看电影的</a>"
             ];
 
             function typeCharacter(element, text, index = 0) {
