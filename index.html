@@ -60,8 +60,9 @@
             $('body').animate({ opacity: 1 }, 1000);
 
             const texts = [
-                "Hello World",
-                "Here are some links below."
+                "Hello Everyone",
+                "很高兴你能来访问我的主页，目前我仍在学习中，希望能做得更好！"
+                "如果你有意思的项目或者好的建议，欢迎联系我哦~"
             ];
 
             function typeCharacter(element, text, index = 0) {
@@ -78,7 +79,7 @@
 
                     // 动态增加容器高度
                     const currentHeight = $('.content').height();
-                    $('.content').css('height', currentHeight + 50 + 'px'); // 每增加一行，高度增加50px
+                    $('.content').css('height', currentHeight + 45 + 'px'); // 每增加一行，高度增加50px
 
                     typeCharacter(p, texts[textIndex]); // 对新行进行逐字打印
                     const delay = texts[textIndex].length * 100 + 1000; // 结束后间隔1秒
@@ -113,11 +114,11 @@
 <div class="content">
     <div id="typed-content"></div>
     <div class="links">
-        <a href='https://blog.ymdr.top' style='color: black; text-decoration: none;' target='_self'>我的博客</a>
-        <a href='/ciallo' style='color: black; text-decoration: none;' target='_self'>Ciallo～(∠・ω< )⌒☆</a>
-        <a href='https://nz.ymdr.top' style='color: black; text-decoration: none;' target='_self'>服务器监控</a>
-        <a href='https://nz.ymdr.pp.ua' style='color: black; text-decoration: none;' target='_self'>备用监控</a>
-        <a href='https://muses.app.tc' style='color: black; text-decoration: none;' target='_self'>看电影的</a>
+        <a href='https://blog.ymdr.top' style='color: black; text-decoration: none;' title="还在犹豫什么" target='_self'>我的博客</a>
+        <a href='/ciallo' style='color: black; text-decoration: none;' title="点进去看看不就知道了" target='_self'>Ciallo～(∠・ω< )⌒☆</a>
+        <a href='https://nz.ymdr.top' style='color: black; text-decoration: none;' title="这个没什么大用" target='_self'>服务器监控</a>
+        <a href='https://nz.ymdr.pp.ua' style='color: black; text-decoration: none;' title="这个更没用" target='_self'>备用监控</a>
+        <a href='https://muses.app.tc' style='color: black; text-decoration: none;' title="放松一下" target='_self'>看电影</a>
     </div>
 </div>
 <div class="footer is-size-7">
