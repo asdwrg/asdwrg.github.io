@@ -27,6 +27,8 @@
             background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
+            position: relative;
+            overflow: hidden;
         }
 
         .footer {
@@ -37,13 +39,26 @@
             width: 100%;
             text-align: center;
         }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            background-color: black;
+            animation: blink 0.7s step-end infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
     </style>
     <script>
         const texts = [
             "Hello World",
             "Here are some links below.",
             "<a href='https://blog.ymdr.top' style='color: black; text-decoration: none;' target='_self'>我的博客</a>",
-            "Ciallo～(∠・ω< )⌒☆: <a href='/ciallo' style='color: black; text-decoration: none;' target='_self'>Ciallo～(∠・ω< )⌒☆</a>",
+            "<a href='/ciallo' style='color: black; text-decoration: none;' target='_self'>Ciallo～(∠・ω< )⌒☆</a>",
             "<a href='https://theuselessweb.com' style='color: black; text-decoration: none;' target='_self'>随机传送门</a>",
             "<a href='https://nz.ymdr.top' style='color: black; text-decoration: none;' target='_self'>服务器监控</a>",
             "<a href='https://nz.ymdr.pp.ua' style='color: black; text-decoration: none;' target='_self'>备用监控</a>",
@@ -51,16 +66,21 @@
         ];
 
         function typeText(element, text, index = 0, charIndex = 0) {
-            if (index < texts.length - 1) {
+            if (charIndex < text.length) {
+                const currentText = text.slice(0, charIndex + 1);
+                element.innerHTML = currentText + "<span class='cursor'></span>";
+                setTimeout(() => typeText(element, text, index, charIndex + 1), 100); // 每个字符间隔100毫秒
+            } else if (index < texts.length - 1) {
                 setTimeout(() => {
+                    element.innerHTML = ""; // 清空当前文本
                     typeText(element, texts[index + 1]); // 打印下一行
-                }, 100); // 每行打印完成后等待1秒
+                }, 1000); // 每行打印完成后等待1秒
             }
         }
 
         window.onload = function() {
             const contentDiv = document.getElementById('typed-content');
-            typeText(contentDiv, texts);
+            typeText(contentDiv, texts[0]);
         };
     </script>
 </head>
