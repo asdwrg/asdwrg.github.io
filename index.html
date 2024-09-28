@@ -8,36 +8,37 @@
     <title>Welcome!!!</title>
     <style>
         body {
-    font-family: Bold;
-    margin: 0;
-    padding: 0;
-    background: url(https://images.wallpaperscraft.com/image/single/silhouette_wall_screens_1067807_1280x720.jpg) no-repeat center center;
-    background-size: cover;
-    display: flex;
-    flex-direction: column; /* 允许内容区和页脚垂直排列 */
-    justify-content: space-between; /* 在内容区和页脚之间留出空间 */
-    min-height: 100vh; /* 使body的高度至少为视口高度 */
-    opacity: 0;
-}
+           font-family: Bold;
+           margin: 0;
+           padding: 0;
+           background: url(https://images.wallpaperscraft.com/image/single/silhouette_wall_screens_1067807_1280x720.jpg) no-repeat center center;
+           background-size: cover;
+           display: flex;
+           flex-direction: column; /* 允许内容区和页脚垂直排列 */
+           justify-content: space-between; /* 在内容区和页脚之间留出空间 */
+           min-height: 100vh; /* 使body的高度至少为视口高度 */
+           opacity: 0;
+        }
 
-.content {
-    max-width: 600px;
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
-    flex-grow: 1; /* 使内容区占据剩余空间 */
-}
+        .content {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            height: 0; /* 初始高度为 0 */
+            transition: height 0.5s ease; /* 高度动画 */
+        }
 
-.footer {
-    background-color: #f0f0f0;
-    text-align: center;
-    padding: 10px 0; /* 增加内边距以提高可读性 */
-}
+        .footer {
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 10px 0; /* 增加内边距以提高可读性 */
+        }
 
         .links a {
             display: block;
