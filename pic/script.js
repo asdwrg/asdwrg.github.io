@@ -1,6 +1,6 @@
 async function fetchRandomImage() {
     try {
-        // 获取 TXT 文件内容
+        // 获取TXT文件内容
         const response = await fetch('images.txt');
         const text = await response.text();
 
