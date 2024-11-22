@@ -1,7 +1,7 @@
 async function fetchRandomImage() {
     try {
         // 获取图片 URL 列表
-        const response = await fetch('images.json');
+        const response = await fetch('images.txt');
         const images = await response.json();
 
         // 随机选择一个 URL
