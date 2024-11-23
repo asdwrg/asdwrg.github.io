@@ -3,26 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Image API</title>
+    <title>Random Image</title>
+    <script>
+        async function redirectToRandomImage() {
+            try {
+                const response = await fetch('images.json'); // 读取图片列表
+                const images = await response.json();
+                const randomIndex = Math.floor(Math.random() * images.length);
+                const randomImageUrl = images[randomIndex];
+
+                // 重定向到随机图片
+                window.location.href = randomImageUrl;
+            } catch (error) {
+                console.error('Error fetching random image:', error);
+            }
+        }
+        redirectToRandomImage();
+    </script>
 </head>
 <body>
-<script>
-    // 动态加载随机图片
-    async function fetchRandomImage() {
-        try {
-            const response = await fetch('images.json'); // 读取图片列表
-            const images = await response.json();
-            const randomIndex = Math.floor(Math.random() * images.length);
-            const randomImageUrl = images[randomIndex];
-
-            // 输出随机图片链接
-            document.write(`<img src="${randomImageUrl}" alt="Random Image">`);
-        } catch (error) {
-            document.write("Error loading image.");
-            console.error('Error fetching random image:', error);
-        }
-    }
-    fetchRandomImage();
-</script>
+    Redirecting to random image...
 </body>
 </html>
