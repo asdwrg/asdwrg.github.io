@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="0; URL=''" id="redirect">
+    <script>
+        async function redirectToRandomImage() {
+            try {
+                // 加载图片 URL 列表
+                const response = await fetch('images.json');
+                const images = await response.json();
+
+                // 随机选择一个 URL
+                const randomIndex = Math.floor(Math.random() * images.length);
+                const randomImageUrl = images[randomIndex];
+
+                // 修改重定向地址
+                document.getElementById('redirect').setAttribute('content', `0; URL='${randomImageUrl}'`);
+            } catch (error) {
+                console.error('Error generating random image:', error);
+            }
+        }
+
+        // 页面加载时调用
+        redirectToRandomImage();
+    </script>
+</head>
+<body>
+</body>
+</html>
