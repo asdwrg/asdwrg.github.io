@@ -2,11 +2,6 @@
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     color: #fff;
     background-color: #333;
     background-size: cover;
@@ -27,15 +22,18 @@ body::before {
     z-index: -1;
 }
 
-/* 布局容器 */
-.profile-card-container {
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
+/* 核心布局容器 */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
     padding: 20px;
+    box-sizing: border-box; /* 确保内边距不影响容器大小 */
 }
 
-/* 个人卡片样式 */
+/* 个人信息卡片样式 */
 .profile-card {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -43,6 +41,7 @@ body::before {
     padding: 30px;
     margin-bottom: 20px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    text-align: center;
 }
 
 .avatar {
@@ -88,63 +87,55 @@ h1 {
     transform: scale(1.2);
 }
 
-/* 新增：大长方形按钮样式 */
-.button-group-lg {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+/* 按钮网格布局，方便增删 */
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 默认两列 */
     gap: 15px;
-    margin-bottom: 20px;
     width: 100%;
+    max-width: 450px; /* 限制按钮组最大宽度 */
+    margin-top: 20px;
 }
 
-.btn-lg {
+.btn {
     display: block;
-    padding: 22px 40px;
+    padding: 22px 0; /* 左右内边距由网格间距控制 */
     border-radius: 10px;
     text-decoration: none;
     font-size: 1.1em;
     font-weight: bold;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s, transform 0.3s;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.btn-primary {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.btn-secondary {
-    background-color: #6c757d;
-    color: #fff;
-}
-
-.btn-lg:hover {
+.btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
     transform: translateY(-3px);
-    opacity: 0.9;
+}
+
+/* 底部内容容器 */
+.footer-content {
+    margin-top: auto; /* 将整个内容推到底部 */
+    text-align: center;
+    width: 100%;
+    padding-top: 20px; /* 增加与上方内容的间距 */
 }
 
 /* 停靠时间样式 */
 .dock-time {
     font-size: 0.9em;
     opacity: 0.7;
-    margin-bottom: 20px;
 }
 
-/* 底部样式 */
+/* 页脚样式 */
 .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    font-size: 0.75rem;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    text-align: center;
-
+    font-size: 0.8em;
+    opacity: 0.6;
+    padding-bottom: 20px;
 }
 
 .footer a {
@@ -154,9 +145,11 @@ h1 {
 
 /* 媒体查询：手机端和小屏幕设备 */
 @media (max-width: 767px) {
-    /* 手机端背景图 */
     body {
-        background-image: url('https://images.ymdr.top/random?type=img&dir=/acg/Phone');
+        background-image: url('https://picsum.photos/720/1280?random=1');
+    }
+    .profile-card {
+        padding: 20px;
     }
     .avatar {
         width: 80px;
@@ -165,25 +158,21 @@ h1 {
     h1 {
         font-size: 1.8em;
     }
-    .btn-lg {
-        padding: 18px 30px;
+    .button-grid {
+        grid-template-columns: 1fr; /* 手机端每行一个按钮 */
+        max-width: 300px;
     }
-    .footer {
-        padding-bottom: 15px; /* 增加底部内边距，防止重叠 */
+    .btn {
+        padding: 18px 0;
     }
 }
 
 /* 媒体查询：电脑端和大屏幕设备 */
 @media (min-width: 768px) {
-    /* 电脑端背景图 */
     body {
-        background-image: url('https://images.ymdr.top/random?type=img&dir=/acg/PC');
+        background-image: url('https://picsum.photos/1920/1080?random=1');
     }
-    .button-group-lg {
-        flex-direction: row;
-        width: auto;
-    }
-    .btn-lg {
-        padding: 22px 60px;
+    .page-container {
+        justify-content: space-between; /* 顶部和底部内容分散对齐 */
     }
 }
