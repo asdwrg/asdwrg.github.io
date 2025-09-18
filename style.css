@@ -160,23 +160,7 @@ h1 {
     body {
         background-image: url('https://images.ymdr.top/random?type=img&dir=/acg/Phone');
     }
-    .profile-card {
-        padding: 20px;
-    }
-    .avatar {
-        width: 80px;
-        height: 80px;
-    }
-    h1 {
-        font-size: 1.8em;
-    }
-    .button-grid {
-        grid-template-columns: 1fr;
-        max-width: 300px;
-    }
-    .btn {
-        padding: 18px 0;
-    }
+    
 }
 
 /* 媒体查询：电脑端和大屏幕设备 */
