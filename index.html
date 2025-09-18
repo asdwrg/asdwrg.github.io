@@ -1,141 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
-    <link rel="shortcut icon" href="/icon.png" />
-    <script src="https://upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.3.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome!!!</title>
-    <style>
-        body {
-           font-family: Bold;
-           margin: 0;
-           padding: 0;
-           background: url(https://images.ymdr.top/random?type=img&dir=/acg/PC) no-repeat center center fixed;
-           background-size: cover;
-           display: flex;
-           justify-content: center;
-           align-items: center;
-           min-height: 100vh;
-           opacity: 0;
-        }
-        .content {
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-            font-weight: bold;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-            height: 0; /* 初始高度为 0 */
-            transition: height 0.5s ease; /* 高度动画 */
-        }
-
-        .footer {
-            background-color: #f0f0f0;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            font-size: 0.75rem;
-            justify-content: center;
-            display: flex;
-            align-items: center;
-            align-content: center;
-            text-align: center;
-        }
-
-        .contact img {
-            vertical-align:middle;
-            transform:scale(0.5);
-        }
-
-        .links a {
-            display: block;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .links a.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
-    <script>
-        $(function() {
-            // 页面加载时的淡入动画
-            $('body').animate({ opacity: 1 }, 1000);
-
-            const texts = [
-                "很高兴你的来访！",
-                "目前我仍在学习中，希望能做得更好！",
-                "-------------"
-            ];
-
-            function typeCharacter(element, text, index = 0) {
-                if (index < text.length) {
-                    $(element).html(text.substring(0, index + 1)); // 更新为当前可见部分
-                    setTimeout(() => typeCharacter(element, text, index + 1), 100); // 每个字符打印间隔100毫秒
-                }
-            }
-
-            function typeText(element, texts, textIndex = 0) {
-                if (textIndex < texts.length) {
-                    const p = $('<p></p>'); // 创建新的 p 元素
-                    $(element).append(p); // 将新行添加到内容区域
-
-                    // 动态增加容器高度
-                    const currentHeight = $('.content').height();
-                    $('.content').css('height', currentHeight + 45 + 'px'); // 每增加一行，高度增加50px
-
-                    typeCharacter(p, texts[textIndex]); // 对新行进行逐字打印
-                    const delay = texts[textIndex].length * 100 + 1000; // 结束后间隔1秒
-                    setTimeout(() => {
-                        if (textIndex === texts.length - 1) {
-                            showLinks(); // 打印完成后显示链接
-                        }
-                        typeText(element, texts, textIndex + 1);
-                    }, delay);
-                }
-            }
-
-            function showLinks() {
-                $('.links a').each(function(index) {
-                    const link = $(this);
-                    setTimeout(() => {
-                        link.addClass('show'); // 添加类以启动动画
-
-                        // 每显示一个链接就增加内容区域的高度
-                        const currentHeight = $('.content').height();
-                        $('.content').css('height', currentHeight + 20 + 'px'); // 每个链接增加50px高度
-                    }, index * 500); // 每个链接的动画延迟500ms
-                });
-            }
-
-            // 开始逐字打印
-            typeText($('#typed-content'), texts);
-        });
-    </script>
+    <title>您的名字 - 个人主页</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-<div class="content">
-    <div id="typed-content"></div>
-    <div class="links">
-        <a href='https://blog.ymdr.top' style='color: black; text-decoration: none;' title="还在犹豫什么" target='_self'>记笔记的</a>
-        <a href='/ciallo' style='color: black; text-decoration: none;' title="点进去看看不就知道了" target='_self'>Ciallo～(∠・ω< )⌒☆</a>
-        <a href='https://nz.ymdr.top' style='color: black; text-decoration: none;' title="不要偷看~" target='_self'>监控</a>
-    </div>
-</div>
-<div class="footer is-size-7">
-    <div class="contact img">
-    <p>
-        Copyright &copy; 2023~2025 ymdr All Rights Reserved. | Contact me: <a href="https://t.me/ymdr_C/" rel="noreferrer external">
-            <img alt="" style="height:35px;" src="https://img.icons8.com/?size=100&id=jZ1z64hEYYLW&format=png&color=000000"></a>
-    </p>
-    </div>
-</div>
+
+    <main class="profile-card-container">
+        <div class="profile-card">
+            <img src="your-avatar.jpg" alt="您的头像" class="avatar">
+            <h1>您的名字</h1>
+            <p class="bio">您的简介或座右铭。</p>
+
+            <div class="social-links">
+                <a href="https://github.com/your_username" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://weibo.com/your_id" target="_blank"><i class="fab fa-weibo"></i></a>
+                <a href="https://space.bilibili.com/your_id" target="_blank"><i class="fab fa-bilibili"></i></a>
+                </div>
+        </div>
+
+        <div class="button-group">
+            <a href="#" class="btn btn-primary">我的项目</a>
+            <a href="#" class="btn btn-secondary">博客文章</a>
+        </div>
+
+        <div class="dock-time">
+            <p>已停靠时间：<span id="dock-timer">0天0小时0分0秒</span></p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Copyright © 您的名字. All Rights Reserved.</p>
+        <p>
+            <a href="https://beian.miit.gov.cn/" target="_blank">皖ICP备xxxxxxxxx号</a>
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>

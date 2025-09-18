@@ -1,0 +1,120 @@
+/* 通用样式 */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #fff;
+    background-color: #333;
+    /* 背景图片或拼图背景 */
+    background-image: url('your-jigsaw-background.jpg');
+    background-size: 150px; /* 控制图片大小，可调整 */
+    background-repeat: repeat; /* 重复铺满 */
+}
+
+/* 布局容器 */
+.profile-card-container {
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+/* 个人卡片样式 */
+.profile-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    font-size: 2.2em;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.bio {
+    font-size: 1em;
+    opacity: 0.8;
+}
+
+/* 社交媒体链接 */
+.social-links a {
+    color: #fff;
+    font-size: 1.5em;
+    margin: 0 10px;
+    transition: transform 0.3s;
+}
+
+.social-links a:hover {
+    transform: scale(1.2);
+}
+
+/* 按钮样式 */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+    transform: translateY(-3px);
+    opacity: 0.9;
+}
+
+/* 停靠时间样式 */
+.dock-time {
+    font-size: 0.9em;
+    opacity: 0.7;
+    margin-bottom: 20px;
+}
+
+/* 底部样式 */
+.footer {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8em;
+    opacity: 0.6;
+}
+
+.footer a {
+    color: #fff;
+    text-decoration: none;
+}
