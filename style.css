@@ -126,15 +126,13 @@ h1 {
 
 /* 固定页脚容器 */
 .fixed-footer {
-    position: fixed;
+    position: relative; /* 改为相对定位 */
     bottom: 0;
-    left: 0;
     width: 100%;
     text-align: center;
-    background: rgba(0, 0, 0, 0.2); /* 半透明背景，与页面融合 */
-    backdrop-filter: blur(5px);
-    padding: 10px 0; /* 适当的上下内边距 */
-    z-index: 1000; /* 确保页脚在最上层 */
+    font-size: 0.8em;
+    opacity: 0.6;
+    margin-top: auto; /* 将页脚推到底部 */
 }
 
 /* 停靠时间样式 */
