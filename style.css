@@ -134,13 +134,17 @@ h1 {
 
 /* 底部样式 */
 .footer {
-    position: relative; /* 改为相对定位 */
+    position: fixed;
     bottom: 0;
+    left: 0;
     width: 100%;
+    font-size: 0.75rem;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    align-content: center;
     text-align: center;
-    font-size: 0.8em;
-    opacity: 0.6;
-    margin-top: auto; /* 将页脚推到底部 */
+
 }
 
 .footer a {
