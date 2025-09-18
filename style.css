@@ -27,7 +27,7 @@ body::before {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* 垂直居中 */
+    justify-content: center;
     min-height: 100vh;
     padding: 20px;
     box-sizing: border-box;
@@ -95,9 +95,10 @@ h1 {
     width: 100%;
     max-width: 450px;
     margin-top: 20px;
+    margin-bottom: 120px; /* 增加底部外边距，为页脚留出空间 */
 }
 
-/* 按钮样式 - 恢复最初的长方形样式 */
+/* 按钮样式 */
 .btn {
     display: block;
     padding: 22px 0;
@@ -124,22 +125,24 @@ h1 {
     opacity: 0.9;
 }
 
-/* 固定页脚容器 */
-.fixed-footer {
-    position: relative; /* 改为相对定位 */
+/* 粘性页脚容器 */
+.sticky-footer {
+    position: sticky;
     bottom: 0;
+    left: 0;
     width: 100%;
     text-align: center;
-    font-size: 0.8em;
-    opacity: 0.6;
-    margin-top: auto; /* 将页脚推到底部 */
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    padding: 10px 0;
+    z-index: 1000;
 }
 
 /* 停靠时间样式 */
 .dock-time {
     font-size: 0.9em;
     opacity: 0.7;
-    margin-bottom: 5px; /* 与下方文字的间距 */
+    margin-bottom: 5px;
 }
 
 /* 页脚信息样式 */
@@ -171,6 +174,7 @@ h1 {
     .button-grid {
         grid-template-columns: 1fr;
         max-width: 300px;
+        margin-bottom: 100px; /* 手机端为页脚留出更多空间 */
     }
     .btn {
         padding: 18px 0;
