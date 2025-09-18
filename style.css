@@ -22,15 +22,15 @@ body::before {
     z-index: -1;
 }
 
-/* 核心布局容器 */
-.page-container {
+/* 核心内容容器 - 垂直居中 */
+.main-content-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* 垂直居中 */
     min-height: 100vh;
     padding: 20px;
-    box-sizing: border-box; /* 确保内边距不影响容器大小 */
+    box-sizing: border-box;
 }
 
 /* 个人信息卡片样式 */
@@ -87,58 +87,70 @@ h1 {
     transform: scale(1.2);
 }
 
-/* 按钮网格布局，方便增删 */
+/* 按钮网格布局 */
 .button-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 默认两列 */
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     width: 100%;
-    max-width: 450px; /* 限制按钮组最大宽度 */
+    max-width: 450px;
     margin-top: 20px;
 }
 
+/* 按钮样式 - 恢复最初的长方形样式 */
 .btn {
     display: block;
-    padding: 22px 0; /* 左右内边距由网格间距控制 */
+    padding: 22px 0;
     border-radius: 10px;
     text-decoration: none;
     font-size: 1.1em;
     font-weight: bold;
     color: #fff;
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s, transform 0.3s;
     text-align: center;
 }
 
-.btn:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);
+.btn-primary {
+    background-color: #007bff;
 }
 
-/* 底部内容容器 */
-.footer-content {
-    margin-top: auto; /* 将整个内容推到底部 */
-    text-align: center;
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    opacity: 0.9;
+}
+
+/* 固定页脚容器 */
+.fixed-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    padding-top: 20px; /* 增加与上方内容的间距 */
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2); /* 半透明背景，与页面融合 */
+    backdrop-filter: blur(5px);
+    padding: 10px 0; /* 适当的上下内边距 */
+    z-index: 1000; /* 确保页脚在最上层 */
 }
 
 /* 停靠时间样式 */
 .dock-time {
     font-size: 0.9em;
     opacity: 0.7;
+    margin-bottom: 5px; /* 与下方文字的间距 */
 }
 
-/* 页脚样式 */
-.footer {
+/* 页脚信息样式 */
+.footer-info {
     font-size: 0.8em;
     opacity: 0.6;
-    padding-bottom: 20px;
 }
 
-.footer a {
+.footer-info a {
     color: #fff;
     text-decoration: none;
 }
@@ -146,7 +158,7 @@ h1 {
 /* 媒体查询：手机端和小屏幕设备 */
 @media (max-width: 767px) {
     body {
-        background-image: url('https://picsum.photos/720/1280?random=1');
+        background-image: url('https://images.ymdr.top/random?type=img&dir=/acg/Phone');
     }
     .profile-card {
         padding: 20px;
@@ -159,7 +171,7 @@ h1 {
         font-size: 1.8em;
     }
     .button-grid {
-        grid-template-columns: 1fr; /* 手机端每行一个按钮 */
+        grid-template-columns: 1fr;
         max-width: 300px;
     }
     .btn {
@@ -170,9 +182,6 @@ h1 {
 /* 媒体查询：电脑端和大屏幕设备 */
 @media (min-width: 768px) {
     body {
-        background-image: url('https://picsum.photos/1920/1080?random=1');
-    }
-    .page-container {
-        justify-content: space-between; /* 顶部和底部内容分散对齐 */
+        background-image: url('https://images.ymdr.top/random?type=img&dir=/acg/PC');
     }
 }
