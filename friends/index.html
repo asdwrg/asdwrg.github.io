@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𝙔𝙈𝘿𝙍 | 友链屋</title>
+    <meta name="description" content="YMDR 的友链页面 - 在这个宇宙里遇见的有趣灵魂">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Zen+Maru+Gothic:wght@300;400;700&display=swap');
+
+        :root {
+            --sakura: #ffb7c5;
+            --miku: #39c5bb;
+            --lavender: #b39ddb;
+            --deep-pink: #ff6b9d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Zen Maru Gothic', 'Inter', "PingFang SC", sans-serif;
+            cursor: none;
+        }
+
+        body {
+            background-color: #0a0a14;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════ 自定义光标 ═══════════ */
+        #cursor {
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, var(--sakura), var(--deep-pink));
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease;
+            box-shadow: 0 0 10px var(--sakura), 0 0 20px rgba(255, 107, 157, 0.3);
+        }
+
+        #cursor-ring {
+            width: 32px;
+            height: 32px;
+            border: 1.5px solid rgba(255, 183, 197, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.25s ease-out;
+        }
+
+        /* ═══════════ 背景 ═══════════ */
+        #bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 15% 85%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 15%, rgba(57, 197, 187, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(179, 157, 219, 0.06) 0%, transparent 60%),
+                linear-gradient(180deg, #0a0a14, #0d0818, #0a0a14);
+        }
+
+        #sakura-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ═══════════ 页面容器 ═══════════ */
+        .page-container {
+            position: relative;
+            z-index: 1;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ═══════════ 导航栏 ═══════════ */
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 0;
+            margin-bottom: 20px;
+        }
+
+        .nav-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-back:hover {
+            color: var(--sakura);
+            border-color: rgba(255, 183, 197, 0.3);
+            box-shadow: 0 0 12px rgba(255, 183, 197, 0.1);
+        }
+
+        .nav-back .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .nav-back:hover .arrow {
+            transform: translateX(-3px);
+        }
+
+        .nav-title {
+            font-size: 0.75rem;
+            letter-spacing: 0.4em;
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* ═══════════ 页面标题 ═══════════ */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-header h1 {
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 0.6em;
+            background: linear-gradient(135deg, #ffffff, var(--lavender), var(--sakura));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-flow 6s ease infinite;
+            margin-bottom: 12px;
+        }
+
+        .page-header .subtitle {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 0.2em;
+        }
+
+        .deco-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--lavender), transparent);
+            margin: 20px auto 0;
+            border-radius: 2px;
+            opacity: 0.5;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ═══════════ 友链卡片网格 ═══════════ */
+        .friends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 60px;
+        }
+
+        .friend-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-decoration: none;
+            color: white;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardFadeIn 0.6s ease forwards;
+        }
+
+        .friend-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(179, 157, 219, 0.08), rgba(255, 183, 197, 0.04));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .friend-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            border-color: rgba(179, 157, 219, 0.3);
+            box-shadow: 0 8px 32px rgba(179, 157, 219, 0.15), 0 0 0 1px rgba(179, 157, 219, 0.2);
+        }
+
+        .friend-card:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes cardFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .friend-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            transition: border-color 0.3s ease;
+            background: rgba(179, 157, 219, 0.15);
+        }
+
+        .friend-card:hover .friend-avatar {
+            border-color: rgba(179, 157, 219, 0.5);
+        }
+
+        .friend-info {
+            flex: 1;
+            min-width: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .friend-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .friend-card:hover .friend-name {
+            color: var(--lavender);
+        }
+
+        .friend-desc {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .friend-arrow {
+            font-size: 1rem;
+            opacity: 0.1;
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+
+        .friend-card:hover .friend-arrow {
+            opacity: 0.8;
+            transform: translateX(4px);
+            color: var(--lavender);
+        }
+
+        /* ═══════════ 申请友链区 ═══════════ */
+        .apply-section {
+            margin-bottom: 60px;
+        }
+
+        .apply-section .section-title {
+            font-size: 11px;
+            letter-spacing: 0.35em;
+            opacity: 0.25;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .apply-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 36px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .apply-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 20px;
+            padding: 1px;
+            background: linear-gradient(135deg,
+                    rgba(179, 157, 219, 0.3),
+                    rgba(57, 197, 187, 0.15),
+                    rgba(255, 183, 197, 0.2),
+                    rgba(179, 157, 219, 0.3));
+            background-size: 300% 300%;
+            animation: gradient-flow 6s ease infinite;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        .apply-info {
+            margin-bottom: 28px;
+        }
+
+        .apply-info h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .apply-info p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.45);
+            line-height: 1.8;
+        }
+
+        .apply-info .my-site-info {
+            margin-top: 16px;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 2;
+        }
+
+        .my-site-info .label {
+            color: var(--lavender);
+            opacity: 0.8;
+            display: inline-block;
+            min-width: 64px;
+        }
+
+        /* 表单样式 */
+        .apply-form {
+            display: grid;
+            gap: 16px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.1em;
+        }
+
+        .form-group label .required {
+            color: var(--sakura);
+            margin-left: 2px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 0.85rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s ease;
+            resize: none;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: rgba(179, 157, 219, 0.5);
+            box-shadow: 0 0 0 3px rgba(179, 157, 219, 0.1);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 12px;
+            border: 1px solid rgba(179, 157, 219, 0.4);
+            background: rgba(179, 157, 219, 0.1);
+            color: var(--lavender);
+            font-size: 0.85rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.1em;
+        }
+
+        .btn-submit:hover {
+            background: rgba(179, 157, 219, 0.2);
+            border-color: rgba(179, 157, 219, 0.6);
+            box-shadow: 0 4px 20px rgba(179, 157, 219, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-reset {
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 0.85rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reset:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* ═══════════ Toast 通知 ═══════════ */
+        .toast {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            z-index: 10000;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            backdrop-filter: blur(12px);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: rgba(57, 197, 187, 0.15);
+            border: 1px solid rgba(57, 197, 187, 0.3);
+            color: var(--miku);
+        }
+
+        .toast.error {
+            background: rgba(255, 107, 157, 0.15);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            color: var(--deep-pink);
+        }
+
+        /* ═══════════ Footer ═══════════ */
+        .site-footer {
+            padding: 2.5rem 0;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .site-footer .heartbeat {
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            color: var(--sakura);
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.25); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+        }
+
+        /* 装饰星星 */
+        .deco-star {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* ═══════════ 响应式 ═══════════ */
+        @media (max-width: 640px) {
+            .page-header h1 {
+                font-size: 1.6rem;
+                letter-spacing: 0.4em;
+            }
+
+            .friends-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .apply-card {
+                padding: 24px 20px;
+            }
+
+            .nav-title {
+                display: none;
+            }
+        }
+
+        /* 滚动条 */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--sakura), var(--lavender));
+            border-radius: 4px;
+        }
+
+        ::selection {
+            background: rgba(179, 157, 219, 0.4);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+    <div id="bg-layer"></div>
+    <canvas id="sakura-canvas"></canvas>
+
+    <!-- 装饰星星 -->
+    <div class="deco-star" style="top:8%;left:5%;font-size:10px;animation-delay:0s;">✦</div>
+    <div class="deco-star" style="top:20%;right:12%;font-size:7px;animation-delay:1.4s;color:var(--miku);">✧</div>
+    <div class="deco-star" style="top:55%;left:8%;font-size:9px;animation-delay:0.7s;color:var(--sakura);">✦</div>
+    <div class="deco-star" style="top:70%;right:6%;font-size:12px;animation-delay:2s;color:var(--lavender);">✧</div>
+
+    <!-- Toast 通知 -->
+    <div id="toast" class="toast"></div>
+
+    <div class="page-container">
+
+        <!-- 导航栏 -->
+        <nav class="nav-bar">
+            <a href="/" class="nav-back">
+                <span class="arrow">←</span>
+                <span>返回基地</span>
+            </a>
+            <span class="nav-title">𝙔𝙈𝘿𝙍 · FRIENDS</span>
+        </nav>
+
+        <!-- 页面标题 -->
+        <header class="page-header">
+            <h1>友链屋</h1>
+            <p class="subtitle">在这个宇宙里遇见的有趣灵魂</p>
+            <div class="deco-divider"></div>
+        </header>
+
+        <!-- ═══════════ 友链卡片区 ═══════════ -->
+        <section class="friends-grid" id="friends-grid">
+            <!-- 友链卡片由 JS 动态渲染 -->
+        </section>
+
+        <!-- ═══════════ 申请友链区 ═══════════ -->
+        <section class="apply-section">
+            <h2 class="section-title">APPLY / 申请友链</h2>
+            <div class="apply-card">
+                <div class="apply-info">
+                    <h3>✨ 想要交换友链吗？</h3>
+                    <p>
+                        欢迎互换友链！请先将本站添加到你的友链列表，然后填写下方表单提交申请。<br>
+                        申请将通过 GitHub Issues 发送，审核通过后会尽快添加 ~
+                    </p>
+                    <div class="my-site-info">
+                        <div><span class="label">名称</span> 𝙔𝙈𝘿𝙍 の秘密基地</div>
+                        <div><span class="label">链接</span> https://asdwrg.github.io</div>
+                        <div><span class="label">头像</span> https://asdwrg.github.io/icon.png</div>
+                        <div><span class="label">描述</span> 在数字海洋里偶尔吐泡泡的咸鱼</div>
+                    </div>
+                </div>
+
+                <form class="apply-form" id="apply-form" onsubmit="submitApplication(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>站点名称 <span class="required">*</span></label>
+                            <input type="text" id="site-name" placeholder="你的站点名称" required>
+                        </div>
+                        <div class="form-group">
+                            <label>站点链接 <span class="required">*</span></label>
+                            <input type="url" id="site-url" placeholder="https://example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>头像链接 <span class="required">*</span></label>
+                            <input type="url" id="site-avatar" placeholder="https://example.com/avatar.png" required>
+                        </div>
+                        <div class="form-group">
+                            <label>联系方式</label>
+                            <input type="text" id="site-contact" placeholder="邮箱 / Telegram / Discord">
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>站点描述 <span class="required">*</span></label>
+                        <textarea id="site-desc" rows="2" placeholder="一句话介绍你的站点" required></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>留言</label>
+                        <textarea id="site-message" rows="2" placeholder="想说点什么？(可选)"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit">
+                            <span>✦</span> 提交申请
+                        </button>
+                        <button type="reset" class="btn-reset">清空</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <p>© 2026 𝙔𝙈𝘿𝙍 · Built with <span class="heartbeat">♥</span> and Magic</p>
+        </footer>
+    </div>
+
+    <script>
+        // ═══════════ 友链数据 ═══════════
+        // 在此数组中添加/修改友链
+        const FRIENDS_DATA = [
+            {
+                name: "示例小站",
+                url: "https://example.com",
+                avatar: "https://api.dicebear.com/7.x/thumbs/svg?seed=example1",
+                desc: "这是一个示例友链，你可以替换成真实的友链数据"
+            },
+            {
+                name: "二次元基地",
+                url: "https://example.com",
+                avatar: "https://api.dicebear.com/7.x/thumbs/svg?seed=anime",
+                desc: "分享动漫、轻小说和各种ACG资源的小站"
+            },
+            {
+                name: "代码花园",
+                url: "https://example.com",
+                avatar: "https://api.dicebear.com/7.x/thumbs/svg?seed=coder",
+                desc: "一个热爱编程的开发者的技术博客"
+            },
+            {
+                name: "星空日记",
+                url: "https://example.com",
+                avatar: "https://api.dicebear.com/7.x/thumbs/svg?seed=stars",
+                desc: "记录生活中的点滴美好"
+            }
+        ];
+
+        // ═══════════ 渲染友链卡片 ═══════════
+        function renderFriends() {
+            const grid = document.getElementById('friends-grid');
+            grid.innerHTML = FRIENDS_DATA.map((f, i) => `
+                <a href="${f.url}" class="friend-card" target="_blank" rel="noopener"
+                   style="animation-delay: ${i * 0.1}s;">
+                    <img class="friend-avatar" src="${f.avatar}" alt="${f.name}"
+                         onerror="this.src='https://api.dicebear.com/7.x/thumbs/svg?seed=${encodeURIComponent(f.name)}'">
+                    <div class="friend-info">
+                        <div class="friend-name">${f.name}</div>
+                        <div class="friend-desc">${f.desc}</div>
+                    </div>
+                    <span class="friend-arrow">→</span>
+                </a>
+            `).join('');
+        }
+        renderFriends();
+
+        // ═══════════ 提交友链申请 → GitHub Issue ═══════════
+        function submitApplication(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('site-name').value.trim();
+            const url = document.getElementById('site-url').value.trim();
+            const avatar = document.getElementById('site-avatar').value.trim();
+            const contact = document.getElementById('site-contact').value.trim();
+            const desc = document.getElementById('site-desc').value.trim();
+            const message = document.getElementById('site-message').value.trim();
+
+            if (!name || !url || !avatar || !desc) {
+                showToast('请填写所有必填项 ✦', 'error');
+                return;
+            }
+
+            // 构建 GitHub Issue 内容
+            const issueTitle = `🔗 友链申请: ${name}`;
+            const issueBody = [
+                `## 友链申请`,
+                ``,
+                `| 项目 | 内容 |`,
+                `|------|------|`,
+                `| **站点名称** | ${name} |`,
+                `| **站点链接** | ${url} |`,
+                `| **头像链接** | ${avatar} |`,
+                `| **站点描述** | ${desc} |`,
+                `| **联系方式** | ${contact || '未填写'} |`,
+                ``,
+                message ? `### 留言\n${message}` : '',
+                ``,
+                `---`,
+                `> 此 Issue 由友链申请表单自动生成`
+            ].filter(Boolean).join('\n');
+
+            // 跳转到 GitHub Issues 创建页面（预填内容）
+            // ⚠️ 请将下方仓库地址替换为你的实际 GitHub 仓库
+            const repoOwner = 'asdwrg';
+            const repoName = 'asdwrg.github.io';
+            const issueUrl = `https://github.com/${repoOwner}/${repoName}/issues/new?` +
+                `title=${encodeURIComponent(issueTitle)}&` +
+                `body=${encodeURIComponent(issueBody)}&` +
+                `labels=${encodeURIComponent('友链申请')}`;
+
+            showToast('正在跳转到 GitHub 提交申请...', 'success');
+
+            setTimeout(() => {
+                window.open(issueUrl, '_blank');
+            }, 800);
+        }
+
+        // ═══════════ Toast 通知 ═══════════
+        function showToast(text, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = text;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ═══════════ 自定义光标 ═══════════
+        const cursor = document.getElementById('cursor');
+        const cursorRing = document.getElementById('cursor-ring');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 5 + 'px';
+            cursor.style.top = e.clientY - 5 + 'px';
+            cursorRing.style.left = e.clientX - 16 + 'px';
+            cursorRing.style.top = e.clientY - 16 + 'px';
+        });
+
+        document.addEventListener('mousedown', () => {
+            cursor.style.transform = 'scale(0.6)';
+            cursorRing.style.transform = 'scale(0.8)';
+        });
+        document.addEventListener('mouseup', () => {
+            cursor.style.transform = 'scale(1)';
+            cursorRing.style.transform = 'scale(1)';
+        });
+
+        document.querySelectorAll('a, button, input, textarea, [onclick]').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorRing.style.transform = 'scale(1.6)';
+                cursorRing.style.borderColor = 'rgba(179,157,219,0.8)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorRing.style.transform = 'scale(1)';
+                cursorRing.style.borderColor = 'rgba(255,183,197,0.5)';
+            });
+        });
+
+        // 移动端隐藏自定义光标
+        window.addEventListener('touchstart', () => {
+            cursor.style.display = 'none';
+            cursorRing.style.display = 'none';
+        }, { once: true });
+
+        // ═══════════ 樱花花瓣 ═══════════
+        const sakuraCanvas = document.getElementById('sakura-canvas');
+        const sakuraCtx = sakuraCanvas.getContext('2d');
+
+        function resizeCanvas() {
+            sakuraCanvas.width = window.innerWidth;
+            sakuraCanvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class SakuraPetal {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * sakuraCanvas.width;
+                this.y = -15;
+                this.size = Math.random() * 7 + 3;
+                this.speedY = Math.random() * 0.8 + 0.4;
+                this.speedX = Math.random() * 0.8 - 0.4;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.025;
+                this.opacity = Math.random() * 0.4 + 0.15;
+                this.wobble = Math.random() * Math.PI * 2;
+                this.wobbleSpeed = Math.random() * 0.015 + 0.008;
+            }
+            update() {
+                this.y += this.speedY;
+                this.wobble += this.wobbleSpeed;
+                this.x += this.speedX + Math.sin(this.wobble) * 0.4;
+                this.rotation += this.rotSpeed;
+                if (this.y > sakuraCanvas.height + 15) this.reset();
+            }
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(this.size / 2, -this.size / 2, this.size, 0, 0, this.size);
+                ctx.bezierCurveTo(-this.size, 0, -this.size / 2, -this.size / 2, 0, 0);
+                ctx.fillStyle = `rgba(255, ${160 + Math.random() * 40}, ${180 + Math.random() * 20}, 0.8)`;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const petals = Array.from({ length: 18 }, () => {
+            const p = new SakuraPetal();
+            p.y = Math.random() * sakuraCanvas.height;
+            return p;
+        });
+
+        function renderSakura() {
+            sakuraCtx.clearRect(0, 0, sakuraCanvas.width, sakuraCanvas.height);
+            petals.forEach(p => { p.update(); p.draw(sakuraCtx); });
+            requestAnimationFrame(renderSakura);
+        }
+        renderSakura();
+    </script>
+</body>
+
+</html>
