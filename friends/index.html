@@ -322,6 +322,7 @@
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
+            pointer-events: none;
         }
 
         .apply-info {
@@ -404,6 +405,9 @@
             outline: none;
             transition: all 0.3s ease;
             resize: none;
+            cursor: text;
+            position: relative;
+            z-index: 1;
         }
 
         .form-group input::placeholder,
@@ -678,30 +682,7 @@
         // ═══════════ 友链数据 ═══════════
         // 在此数组中添加/修改友链
         const FRIENDS_DATA = [
-            {
-                name: "示例小站",
-                url: "https://example.com",
-                avatar: "https://api.dicebear.com/7.x/thumbs/svg?seed=example1",
-                desc: "这是一个示例友链，你可以替换成真实的友链数据"
-            },
-            {
-                name: "二次元基地",
-                url: "https://example.com",
-                avatar: "https://api.dicebear.com/7.x/thumbs/svg?seed=anime",
-                desc: "分享动漫、轻小说和各种ACG资源的小站"
-            },
-            {
-                name: "代码花园",
-                url: "https://example.com",
-                avatar: "https://api.dicebear.com/7.x/thumbs/svg?seed=coder",
-                desc: "一个热爱编程的开发者的技术博客"
-            },
-            {
-                name: "星空日记",
-                url: "https://example.com",
-                avatar: "https://api.dicebear.com/7.x/thumbs/svg?seed=stars",
-                desc: "记录生活中的点滴美好"
-            }
+            
         ];
 
         // ═══════════ 渲染友链卡片 ═══════════
