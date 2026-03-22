@@ -1,43 +1,1169 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YMDR - 个人主页</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>𝙔𝙈𝘿𝙍 | 秘密基地</title>
+    <meta name="description" content="YMDR 的个人主页 - 在这片数字海洋里的秘密基地">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Zen+Maru+Gothic:wght@300;400;700&display=swap');
+
+        :root {
+            --sakura: #ffb7c5;
+            --miku: #39c5bb;
+            --lavender: #b39ddb;
+            --deep-pink: #ff6b9d;
+            --bg-speed: 0.1s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Zen Maru Gothic', 'Inter', "PingFang SC", sans-serif;
+            cursor: none;
+        }
+
+        body {
+            background-color: #0a0a14;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* ═══════════ 自定义光标 ═══════════ */
+        #cursor {
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, var(--sakura), var(--deep-pink));
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease;
+            box-shadow: 0 0 10px var(--sakura), 0 0 20px rgba(255, 107, 157, 0.3);
+        }
+
+        #cursor-ring {
+            width: 32px;
+            height: 32px;
+            border: 1.5px solid rgba(255, 183, 197, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.25s ease-out;
+        }
+
+        /* ═══════════ 全屏背景 ═══════════ */
+        #parallax-bg {
+            position: fixed;
+            top: -5%;
+            left: -5%;
+            width: 110%;
+            height: 110%;
+            background-image: url('https://images.ymdr.top/random?type=img&dir=/acg');
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+            transition: transform var(--bg-speed) linear, filter 0.8s ease;
+        }
+
+        /* 背景渐变叠加层 */
+        #bg-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(57, 197, 187, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(179, 157, 219, 0.08) 0%, transparent 70%),
+                linear-gradient(to bottom, rgba(10, 10, 20, 0.2), rgba(10, 10, 20, 0.5));
+            transition: opacity 0.8s ease;
+        }
+
+        .is-content-active #parallax-bg {
+            filter: blur(18px) brightness(0.35) saturate(1.2);
+        }
+
+        .is-content-active #bg-overlay {
+            opacity: 0.6;
+        }
+
+        /* 樱花花瓣 Canvas */
+        #sakura-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* 光标拖尾粒子 Canvas */
+        #sparkle-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 9997;
+            pointer-events: none;
+        }
+
+        /* ═══════════ 页面结构 ═══════════ */
+        #page-wrapper {
+            transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
+            height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .is-content-active #page-wrapper {
+            transform: translateY(-100vh);
+        }
+
+        /* ═══════════ 首页 Hero ═══════════ */
+        .section-hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* 滚动指示器 */
+        #scroll-btn {
+            position: absolute;
+            bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            pointer-events: auto;
+            animation: float-gentle 3s ease-in-out infinite;
+        }
+
+        #scroll-btn .scroll-text {
+            font-size: 10px;
+            letter-spacing: 0.35em;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 8px;
+        }
+
+        #scroll-btn .scroll-dots {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        #scroll-btn .scroll-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--sakura);
+            animation: dot-pulse 2s ease-in-out infinite;
+        }
+
+        #scroll-btn .scroll-dot:nth-child(2) {
+            animation-delay: 0.3s;
+            opacity: 0.6;
+        }
+
+        #scroll-btn .scroll-dot:nth-child(3) {
+            animation-delay: 0.6s;
+            opacity: 0.3;
+        }
+
+        @keyframes dot-pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: scale(1.8);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float-gentle {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        /* Hero 名称悬浮层 */
+        #hero-name-overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        #hero-name-text {
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 1.2rem;
+            background: linear-gradient(135deg, #ffffff, var(--sakura), var(--miku), var(--lavender));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-flow 6s ease infinite;
+            filter: drop-shadow(0 0 30px rgba(255, 183, 197, 0.3));
+            transition: all 0.7s ease;
+        }
+
+        #hero-subtitle {
+            font-size: 0.8rem;
+            letter-spacing: 0.5em;
+            color: rgba(255, 255, 255, 0.35);
+            margin-top: 16px;
+            transition: all 0.7s ease;
+        }
+
+        @keyframes gradient-flow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* ═══════════ 装饰星星 ═══════════ */
+        .deco-star {
+            position: fixed;
+            pointer-events: none;
+            z-index: 2;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* ═══════════ 内容区域 ═══════════ */
+        .section-content {
+            min-height: 100vh;
+            background: linear-gradient(180deg,
+                    rgba(10, 10, 20, 0.85) 0%,
+                    rgba(15, 10, 30, 0.92) 50%,
+                    rgba(10, 10, 20, 0.95) 100%);
+            backdrop-filter: blur(8px);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 内容入场动画 */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: none;
+        }
+
+        .fade-in-up.is-visible {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Content 名字区域 */
+        #content-name h1 {
+            background: linear-gradient(135deg, #ffffff, var(--sakura));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 15px rgba(255, 183, 197, 0.2));
+        }
+
+        /* ═══════════ 时钟组件 ═══════════ */
+        .clock-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 183, 197, 0.2);
+            padding: 2rem 2.5rem;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 3rem;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            overflow: hidden;
+            animation: float-clock 4s ease-in-out infinite;
+            box-shadow:
+                0 0 20px rgba(255, 183, 197, 0.08),
+                inset 0 0 30px rgba(255, 255, 255, 0.02);
+        }
+
+        .clock-container::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(135deg,
+                    rgba(255, 183, 197, 0.4),
+                    rgba(57, 197, 187, 0.2),
+                    rgba(179, 157, 219, 0.3),
+                    rgba(255, 183, 197, 0.4));
+            background-size: 300% 300%;
+            animation: gradient-flow 5s ease infinite;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        @keyframes float-clock {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        #clock-time {
+            font-size: 3.5rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+            background: linear-gradient(to right, #fff, var(--sakura));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #clock-date {
+            font-size: 0.85rem;
+            color: var(--sakura);
+            letter-spacing: 0.2rem;
+            margin-top: 0.6rem;
+            opacity: 0.7;
+        }
+
+        /* ═══════════ 介绍区 ═══════════ */
+        .intro-section {
+            max-width: 560px;
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .intro-section .quote {
+            font-size: 1.05rem;
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.75);
+            position: relative;
+        }
+
+        .intro-section .quote::before,
+        .intro-section .quote::after {
+            font-size: 2.5rem;
+            color: var(--sakura);
+            opacity: 0.3;
+            line-height: 1;
+            vertical-align: top;
+        }
+
+        .intro-section .quote::before {
+            content: '"';
+            margin-right: 4px;
+        }
+
+        .intro-section .quote::after {
+            content: '"';
+            margin-left: 4px;
+        }
+
+        .intro-section .sub-text {
+            font-size: 0.85rem;
+            color: var(--sakura);
+            opacity: 0.7;
+            margin-top: 8px;
+        }
+
+        /* ═══════════ 传送门卡片 ═══════════ */
+        .portals-wrapper {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .portals-title {
+            font-size: 11px;
+            letter-spacing: 0.35em;
+            opacity: 0.25;
+            margin-bottom: 1.5rem;
+            padding-left: 4px;
+            font-weight: 700;
+        }
+
+        .portal-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.4rem 1.6rem;
+            margin-bottom: 12px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-decoration: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            border-color: transparent;
+        }
+
+        .portal-card:hover::before {
+            opacity: 1;
+        }
+
+        /* 卡片主题色 */
+        .portal-card.theme-sakura::before {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.12), rgba(255, 183, 197, 0.06));
+        }
+
+        .portal-card.theme-sakura:hover {
+            box-shadow: 0 8px 32px rgba(255, 107, 157, 0.2), 0 0 0 1px rgba(255, 183, 197, 0.3);
+        }
+
+        .portal-card.theme-sakura:hover h4 {
+            color: var(--sakura);
+        }
+
+        .portal-card.theme-miku::before {
+            background: linear-gradient(135deg, rgba(57, 197, 187, 0.12), rgba(57, 197, 187, 0.06));
+        }
+
+        .portal-card.theme-miku:hover {
+            box-shadow: 0 8px 32px rgba(57, 197, 187, 0.2), 0 0 0 1px rgba(57, 197, 187, 0.3);
+        }
+
+        .portal-card.theme-miku:hover h4 {
+            color: var(--miku);
+        }
+
+        .portal-card.theme-lavender::before {
+            background: linear-gradient(135deg, rgba(179, 157, 219, 0.12), rgba(179, 157, 219, 0.06));
+        }
+
+        .portal-card.theme-lavender:hover {
+            box-shadow: 0 8px 32px rgba(179, 157, 219, 0.2), 0 0 0 1px rgba(179, 157, 219, 0.3);
+        }
+
+        .portal-card.theme-lavender:hover h4 {
+            color: var(--lavender);
+        }
+
+        .portal-card h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: color 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .portal-card .portal-desc {
+            font-size: 10px;
+            opacity: 0.35;
+            margin-top: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .portal-card .portal-arrow {
+            font-size: 1.1rem;
+            opacity: 0.15;
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .portal-card:hover .portal-arrow {
+            opacity: 1;
+            transform: translateX(4px);
+        }
+
+        /* ═══════════ 联系方式 ═══════════ */
+        .contact-section {
+            width: 100%;
+            max-width: 480px;
+            margin-top: 2.5rem;
+            text-align: center;
+        }
+
+        .contact-title {
+            font-size: 11px;
+            letter-spacing: 0.35em;
+            opacity: 0.25;
+            margin-bottom: 1.5rem;
+            padding-left: 4px;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .contact-icons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .contact-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.6);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+
+        .contact-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            transition: all 0.3s ease;
+        }
+
+        .contact-icon:hover {
+            transform: translateY(-5px) scale(1.1);
+            color: white;
+        }
+
+        .contact-icon.icon-discord:hover {
+            border-color: rgba(114, 137, 218, 0.6);
+            box-shadow: 0 6px 24px rgba(114, 137, 218, 0.3), 0 0 0 1px rgba(114, 137, 218, 0.3);
+            background: rgba(114, 137, 218, 0.12);
+        }
+
+        .contact-icon.icon-telegram:hover {
+            border-color: rgba(38, 166, 222, 0.6);
+            box-shadow: 0 6px 24px rgba(38, 166, 222, 0.3), 0 0 0 1px rgba(38, 166, 222, 0.3);
+            background: rgba(38, 166, 222, 0.12);
+        }
+
+        .contact-icon.icon-github:hover {
+            border-color: rgba(179, 157, 219, 0.6);
+            box-shadow: 0 6px 24px rgba(179, 157, 219, 0.3), 0 0 0 1px rgba(179, 157, 219, 0.3);
+            background: rgba(179, 157, 219, 0.12);
+        }
+
+        .contact-icon.icon-email:hover {
+            border-color: rgba(255, 183, 197, 0.6);
+            box-shadow: 0 6px 24px rgba(255, 183, 197, 0.3), 0 0 0 1px rgba(255, 183, 197, 0.3);
+            background: rgba(255, 183, 197, 0.12);
+        }
+
+        .contact-icon .icon-label {
+            position: absolute;
+            bottom: -22px;
+            font-size: 9px;
+            letter-spacing: 0.1em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .contact-icon:hover .icon-label {
+            opacity: 1;
+        }
+
+        /* ═══════════ Footer ═══════════ */
+        .site-footer {
+            padding: 3rem 0 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+        }
+
+        .site-footer .heartbeat {
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            color: var(--sakura);
+        }
+
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            15% {
+                transform: scale(1.25);
+            }
+
+            30% {
+                transform: scale(1);
+            }
+
+            45% {
+                transform: scale(1.15);
+            }
+        }
+
+        .back-to-top {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.35);
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 20px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .back-to-top:hover {
+            color: var(--sakura);
+            border-color: rgba(255, 183, 197, 0.3);
+            box-shadow: 0 0 15px rgba(255, 183, 197, 0.1);
+        }
+
+        /* ═══════════ 分隔装饰线 ═══════════ */
+        .deco-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--sakura), transparent);
+            margin: 0 auto 2rem;
+            border-radius: 2px;
+            opacity: 0.5;
+        }
+
+        /* ═══════════ 响应式 ═══════════ */
+        @media (max-width: 640px) {
+            #hero-name-text {
+                font-size: 2.2rem;
+                letter-spacing: 0.6rem;
+            }
+
+            #hero-subtitle {
+                font-size: 0.65rem;
+            }
+
+            #clock-time {
+                font-size: 2.5rem;
+            }
+
+            .portal-card {
+                padding: 1.2rem 1.3rem;
+            }
+
+            .portal-card h4 {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--sakura), var(--lavender));
+            border-radius: 4px;
+        }
+
+        /* 选中文字颜色 */
+        ::selection {
+            background: rgba(255, 183, 197, 0.4);
+            color: white;
+        }
+    </style>
 </head>
+
 <body>
 
-    <main class="main-content-container">
-        <div class="profile-card">
-            <img src="icon.png" alt="头像" class="avatar">
-            <h1>YMDR</h1>
-            <p class="bio">没什么写的喵~o( =∩ω∩= )m</p>
+    <!-- 自定义光标 -->
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
 
-            <div class="social-links-box">
-                <a href="https://github.com/asdwrg" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://t.me/ymdr_C/" target="_blank"><i class="fab fa-telegram"></i></a>
-            </div>
-        </div>
+    <!-- 背景层 -->
+    <div id="parallax-bg"></div>
+    <div id="bg-overlay"></div>
 
-        <div class="button-grid">
-            <a href="https://images.ymdr.top" class="btn">图床</a>
-            <a href="https://blog.ymdr.top/" class="btn">记笔记的</a>
-            <a href="https://ymdr.top/ciallo/" class="btn">Ciallo～(∠・ω< )⌒☆</a>
-            <a href="https://tz.ymdr.de" class="btn">监控</a>
+    <!-- 樱花 Canvas -->
+    <canvas id="sakura-canvas"></canvas>
+
+    <!-- 光标拖尾 Canvas -->
+    <canvas id="sparkle-canvas"></canvas>
+
+    <!-- 装饰星星 -->
+    <div class="deco-star" style="top:12%;left:8%;font-size:12px;animation-delay:0s;">✦</div>
+    <div class="deco-star" style="top:25%;right:15%;font-size:8px;animation-delay:1.2s;color:var(--miku);">✧</div>
+    <div class="deco-star" style="top:60%;left:12%;font-size:10px;animation-delay:0.6s;color:var(--sakura);">✦</div>
+    <div class="deco-star" style="top:75%;right:10%;font-size:14px;animation-delay:1.8s;color:var(--lavender);">✧</div>
+    <div class="deco-star" style="top:40%;right:5%;font-size:6px;animation-delay:2.4s;">✦</div>
+    <div class="deco-star" style="top:85%;left:20%;font-size:9px;animation-delay:0.9s;color:var(--miku);">✧</div>
+
+    <div id="page-wrapper">
+        <!-- 第一屏：首页 -->
+        <section class="section-hero">
+            <div id="scroll-btn" onclick="goToContent()">
+                <span class="scroll-text">SCROLL DOWN</span>
+                <div class="scroll-dots">
+                    <div class="scroll-dot"></div>
+                    <div class="scroll-dot"></div>
+                    <div class="scroll-dot"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第二屏：内容页 -->
+        <section class="section-content" id="content-section">
+            <!-- 名字 -->
+            <div id="content-name" class="py-16 text-center fade-in-up">
+                <h1 class="text-3xl md:text-4xl font-light tracking-[0.8em]">YMDR</h1>
+                <div class="deco-divider" style="margin-top:1.5rem;"></div>
             </div>
 
-        <div class="fixed-footer">
-            <div class="dock-time">
-                <p>已停靠时间：<span id="dock-timer">0天0小时0分0秒</span></p>
+            <!-- 时钟组件 -->
+            <div class="clock-container fade-in-up" style="animation-delay: 0.15s;">
+                <div id="clock-time">00:00:00</div>
+                <div id="clock-date">LOADING...</div>
             </div>
-            <footer class="footer">
-                <p>Copyright © YMDR. All Rights Reserved.</p>
+
+            <!-- 介绍部分 -->
+            <div class="intro-section fade-in-up" style="animation-delay: 0.3s;">
+                <p class="quote">
+                    在这片数字海洋里，我只是一只偶尔吐泡泡的咸鱼。
+                </p>
+                <p class="sub-text">♡ 喜欢代码、ACG、以及所有亮闪闪的东西 ♡</p>
+            </div>
+
+            <!-- 传送门 -->
+            <div class="portals-wrapper">
+                <h3 class="portals-title fade-in-up" style="animation-delay: 0.45s;">PORTALS / 传送门</h3>
+
+                <a href="#" class="portal-card theme-sakura fade-in-up" style="animation-delay: 0.55s;">
+                    <div>
+                        <h4>赛博精神病院 (BLOG)</h4>
+                        <p class="portal-desc">一些没啥营养的胡言乱语</p>
+                    </div>
+                    <span class="portal-arrow">→</span>
+                </a>
+
+                <a href="#" class="portal-card theme-miku fade-in-up" style="animation-delay: 0.65s;">
+                    <div>
+                        <h4> Ciallo～(∠・ω< )⌒☆ </h4>
+                                <p class="portal-desc">存放各种写了一半的神奇项目</p>
+                    </div>
+                    <span class="portal-arrow">→</span>
+                </a>
+
+                <a href="#" class="portal-card theme-lavender fade-in-up" style="animation-delay: 0.75s;">
+                    <div>
+                        <h4>友链屋 (FRIENDS)</h4>
+                        <p class="portal-desc">在这个宇宙里遇见的有趣灵魂</p>
+                    </div>
+                    <span class="portal-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 联系方式 -->
+            <div class="contact-section fade-in-up" style="animation-delay: 0.85s;">
+                <h3 class="contact-title">CONTACT / 找到我</h3>
+                <div class="contact-icons">
+                    <a href="https://discord.com/users/ymdr0960" class="contact-icon icon-discord" title="Discord"
+                        target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+                        </svg>
+                        <span class="icon-label">Discord</span>
+                    </a>
+                    <a href="https://t.me/ymdr_C" class="contact-icon icon-telegram" title="Telegram" target="_blank"
+                        rel="noopener">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                        </svg>
+                        <span class="icon-label">Telegram</span>
+                    </a>
+                    <a href="https://github.com/asdwrg" class="contact-icon icon-github" title="GitHub" target="_blank"
+                        rel="noopener">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                        </svg>
+                        <span class="icon-label">GitHub</span>
+                    </a>
+                    <a href="mailto:jun860262@gmail.com" class="contact-icon icon-email" title="E-mail">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z" />
+                        </svg>
+                        <span class="icon-label">E-mail</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="site-footer">
+                <p>© 2026 YMDR · Built with <span class="heartbeat">♥</span> and Magic</p>
+                <button onclick="resetApp()" class="back-to-top">↑ 回到顶部</button>
             </footer>
-        </div>
-    </main>
+        </section>
+    </div>
 
-    <script src="script.js"></script>
+    <!-- 首页悬浮的名字 -->
+    <div id="hero-name-overlay">
+        <h1 id="hero-name-text">𝙔𝙈𝘿𝙍</h1>
+        <p id="hero-subtitle">─── 秘密基地 ───</p>
+    </div>
+
+    <script>
+        // ═══════════ 基础元素引用 ═══════════
+        const body = document.body;
+        const bg = document.getElementById('parallax-bg');
+        const cursor = document.getElementById('cursor');
+        const cursorRing = document.getElementById('cursor-ring');
+        const heroNameText = document.getElementById('hero-name-text');
+        const heroSubtitle = document.getElementById('hero-subtitle');
+        const sakuraCanvas = document.getElementById('sakura-canvas');
+        const sparkleCanvas = document.getElementById('sparkle-canvas');
+        const sakuraCtx = sakuraCanvas.getContext('2d');
+        const sparkleCtx = sparkleCanvas.getContext('2d');
+
+        let isAtContent = false;
+        let mouseX = 0, mouseY = 0;
+
+        // ═══════════ Canvas 尺寸初始化 ═══════════
+        function resizeCanvases() {
+            sakuraCanvas.width = sparkleCanvas.width = window.innerWidth;
+            sakuraCanvas.height = sparkleCanvas.height = window.innerHeight;
+        }
+        resizeCanvases();
+        window.addEventListener('resize', resizeCanvases);
+
+        // ═══════════ 1. 鼠标追踪与自定义光标 ═══════════
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            cursor.style.left = e.clientX - 5 + 'px';
+            cursor.style.top = e.clientY - 5 + 'px';
+            cursorRing.style.left = e.clientX - 16 + 'px';
+            cursorRing.style.top = e.clientY - 16 + 'px';
+
+            // 首页视差
+            if (!isAtContent) {
+                const x = (window.innerWidth / 2 - e.clientX) / 50;
+                const y = (window.innerHeight / 2 - e.clientY) / 50;
+                bg.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
+            }
+
+            // 生成拖尾粒子
+            for (let i = 0; i < 2; i++) {
+                sparkles.push({
+                    x: e.clientX + (Math.random() - 0.5) * 8,
+                    y: e.clientY + (Math.random() - 0.5) * 8,
+                    size: Math.random() * 3 + 1,
+                    life: 1,
+                    decay: Math.random() * 0.03 + 0.02,
+                    vx: (Math.random() - 0.5) * 1.5,
+                    vy: (Math.random() - 0.5) * 1.5,
+                    color: Math.random() > 0.5 ? 'rgba(255,183,197,' : 'rgba(57,197,187,'
+                });
+            }
+        });
+
+        document.addEventListener('mousedown', () => {
+            cursor.style.transform = 'scale(0.6)';
+            cursorRing.style.transform = 'scale(0.8)';
+            cursorRing.style.borderColor = 'rgba(255,183,197,0.8)';
+        });
+        document.addEventListener('mouseup', () => {
+            cursor.style.transform = 'scale(1)';
+            cursorRing.style.transform = 'scale(1)';
+            cursorRing.style.borderColor = 'rgba(255,183,197,0.5)';
+        });
+
+        // Hover effect on interactive elements
+        document.querySelectorAll('a, button, [onclick]').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorRing.style.transform = 'scale(1.6)';
+                cursorRing.style.borderColor = 'rgba(255,183,197,0.8)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorRing.style.transform = 'scale(1)';
+                cursorRing.style.borderColor = 'rgba(255,183,197,0.5)';
+            });
+        });
+
+        // ═══════════ 2. 光标拖尾粒子系统 ═══════════
+        let sparkles = [];
+
+        function renderSparkles() {
+            sparkleCtx.clearRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
+            for (let i = sparkles.length - 1; i >= 0; i--) {
+                const s = sparkles[i];
+                s.x += s.vx;
+                s.y += s.vy;
+                s.life -= s.decay;
+                s.size *= 0.98;
+
+                if (s.life <= 0) {
+                    sparkles.splice(i, 1);
+                    continue;
+                }
+
+                sparkleCtx.beginPath();
+                sparkleCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                sparkleCtx.fillStyle = s.color + s.life + ')';
+                sparkleCtx.fill();
+            }
+            requestAnimationFrame(renderSparkles);
+        }
+        renderSparkles();
+
+        // ═══════════ 3. 樱花花瓣系统 ═══════════
+        class SakuraPetal {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * sakuraCanvas.width;
+                this.y = -20;
+                this.size = Math.random() * 8 + 4;
+                this.speedY = Math.random() * 1 + 0.5;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.03;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.wobble = Math.random() * Math.PI * 2;
+                this.wobbleSpeed = Math.random() * 0.02 + 0.01;
+            }
+            update() {
+                this.y += this.speedY;
+                this.wobble += this.wobbleSpeed;
+                this.x += this.speedX + Math.sin(this.wobble) * 0.5;
+                this.rotation += this.rotSpeed;
+
+                if (this.y > sakuraCanvas.height + 20) {
+                    this.reset();
+                }
+            }
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+
+                // 绘制花瓣形状
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(
+                    this.size / 2, -this.size / 2,
+                    this.size, 0,
+                    0, this.size
+                );
+                ctx.bezierCurveTo(
+                    -this.size, 0,
+                    -this.size / 2, -this.size / 2,
+                    0, 0
+                );
+                ctx.fillStyle = `rgba(255, ${160 + Math.random() * 40}, ${180 + Math.random() * 20}, 0.8)`;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const petals = [];
+        const PETAL_COUNT = 25;
+        for (let i = 0; i < PETAL_COUNT; i++) {
+            const p = new SakuraPetal();
+            p.y = Math.random() * sakuraCanvas.height; // 初始分散
+            petals.push(p);
+        }
+
+        function renderSakura() {
+            sakuraCtx.clearRect(0, 0, sakuraCanvas.width, sakuraCanvas.height);
+            petals.forEach(p => {
+                p.update();
+                p.draw(sakuraCtx);
+            });
+            requestAnimationFrame(renderSakura);
+        }
+        renderSakura();
+
+        // ═══════════ 4. 页面状态切换 ═══════════
+        function goToContent() {
+            if (!isAtContent) {
+                isAtContent = true;
+                body.classList.add('is-content-active');
+                heroNameText.style.transform = 'translateY(-150%) scale(0.6)';
+                heroNameText.style.opacity = '0';
+                heroSubtitle.style.transform = 'translateY(-100%)';
+                heroSubtitle.style.opacity = '0';
+
+                // 动画结束后启用滚动 + 触发入场动画
+                setTimeout(() => {
+                    body.style.overflowY = "auto";
+                    triggerContentAnimations();
+                }, 1000);
+            }
+        }
+
+        function backToHero() {
+            if (isAtContent) {
+                isAtContent = false;
+                body.classList.remove('is-content-active');
+                heroNameText.style.transform = 'translateY(0) scale(1)';
+                heroNameText.style.opacity = '1';
+                heroSubtitle.style.transform = 'translateY(0)';
+                heroSubtitle.style.opacity = '1';
+                body.style.overflowY = "hidden";
+                window.scrollTo(0, 0);
+
+                // 重置入场动画
+                document.querySelectorAll('.fade-in-up').forEach(el => {
+                    el.classList.remove('is-visible');
+                });
+            }
+        }
+
+        function resetApp() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(backToHero, 300);
+        }
+
+        // 内容入场动画触发
+        function triggerContentAnimations() {
+            const elements = document.querySelectorAll('.fade-in-up');
+            elements.forEach((el, index) => {
+                const baseDelay = parseFloat(el.style.animationDelay) || 0;
+                setTimeout(() => {
+                    el.classList.add('is-visible');
+                }, baseDelay * 1000 + index * 80);
+            });
+        }
+
+        // ═══════════ 5. 滚轮事件 ═══════════
+        window.addEventListener('wheel', (e) => {
+            if (e.deltaY > 50 && !isAtContent) {
+                goToContent();
+            } else if (e.deltaY < -50 && isAtContent && window.scrollY <= 0) {
+                backToHero();
+            }
+        });
+
+        // ═══════════ 6. 时钟 ═══════════
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('zh-CN', {
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            const dateStr = now.toLocaleDateString('en-US', options);
+
+            document.getElementById('clock-time').textContent = timeStr;
+            document.getElementById('clock-date').textContent = dateStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ═══════════ 7. 移动端触摸 ═══════════
+        let touchStart = 0;
+        window.addEventListener('touchstart', e => {
+            touchStart = e.touches[0].clientY;
+            // 隐藏自定义光标
+            cursor.style.display = 'none';
+            cursorRing.style.display = 'none';
+        });
+        window.addEventListener('touchmove', e => {
+            let touchEnd = e.touches[0].clientY;
+            if (touchStart > touchEnd + 50 && !isAtContent) goToContent();
+        });
+
+        // ═══════════ 8. 页面加载动画 ═══════════
+        window.addEventListener('load', () => {
+            // 名字入场
+            heroNameText.style.opacity = '0';
+            heroNameText.style.transform = 'translateY(20px)';
+            heroSubtitle.style.opacity = '0';
+
+            setTimeout(() => {
+                heroNameText.style.opacity = '1';
+                heroNameText.style.transform = 'translateY(0)';
+            }, 300);
+
+            setTimeout(() => {
+                heroSubtitle.style.opacity = '0.35';
+            }, 800);
+        });
+    </script>
 </body>
+
 </html>
